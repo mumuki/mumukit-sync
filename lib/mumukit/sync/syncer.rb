@@ -10,15 +10,19 @@
 
 module Mumukit::Sync
   class Syncer
-    def initialize(inflators, store)
-      @inflators = inflators
+    def initialize(store, inflators = [])
       @store = store
+      @inflators = inflators
     end
 
-    def import_all!(id_regex=/.*/, resource_classifier = proc { |kind| kind.to_s.classify.constantize })
-      @store.sync_keys.each do |key|
+    def sync_keys_matching(id_regex = nil)
+      id_regex ||= /.*/
+      @store.sync_keys.select { |key| id_regex.matches? key.id }
+    end
+
+    def import_all!(id_regex = nil, resource_classifier = proc { |kind| kind.to_s.classify.constantize })
+      sync_keys_matching(id_regex).each do |key|
         puts "Importing #{key.kind} #{key.id}"
-        next unless id_regex.matches? key.id
         begin
           import_and_save! resource_classifier.call(key.kind).locate_resource(key.id)
         rescue => e

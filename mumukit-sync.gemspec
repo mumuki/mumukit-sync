@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'mumukit-core', '~> 1.5'
+  spec.add_dependency 'mumukit-bridge', '~> 3.5'
 
   spec.add_dependency 'git'
   spec.add_dependency 'octokit', '~> 4.1'

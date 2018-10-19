@@ -1,3 +1,5 @@
+require 'mumukit/bridge'
+
 module Mumukit::Sync
   module Store
   end

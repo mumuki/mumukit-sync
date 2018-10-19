@@ -3,5 +3,3 @@ RSpec.describe Mumukit::Sync do
     expect(Mumukit::Sync::VERSION).not_to be nil
   end
 end
-
-
