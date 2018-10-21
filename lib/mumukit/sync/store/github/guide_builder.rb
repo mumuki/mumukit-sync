@@ -12,7 +12,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def build
-      Bibliotheca::Guide.new(build_json.compact)
+      build_json.compact
     end
 
     def add_exercise(exercise)
@@ -25,7 +25,7 @@ class Mumukit::Sync::Store::Github
       {name: name,
        description: description,
        corollary: corollary,
-       language: language.name,
+       language: language,
        locale: locale,
        type: type,
        extra: extra,

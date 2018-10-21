@@ -23,7 +23,7 @@ class Mumukit::Sync::Store::Github
 
     def run_in_local_repo(dir, local_repo)
       clear_repo local_repo
-      GuideWriter.new(dir, log).write_guide! guide
+      GuideWriter.new(dir, log).write_guide! guide.to_resource_h
       local_repo.add(all: true)
       local_repo.commit("Mumuki Export on #{Time.now}", commit_options)
       local_repo.push

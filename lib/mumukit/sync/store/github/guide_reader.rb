@@ -51,7 +51,7 @@ class Mumukit::Sync::Store::Github
 
       raise 'Missing meta.yml' unless meta
 
-      builder.language = Language.find_by! name: meta['language']
+      builder.language = { name: meta['language'] }
       builder.locale = meta['locale']
 
       read! 'name', builder, meta
@@ -62,7 +62,7 @@ class Mumukit::Sync::Store::Github
 
       read_legacy! builder, meta
 
-      builder.order = Bibliotheca::Ordering.from meta['order']
+      builder.order = Mumukit::Sync::Store::Github::Ordering.from meta['order']
     end
 
     def read_legacy!(builder, meta)

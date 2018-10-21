@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'mumukit-core', '~> 1.5'
   spec.add_dependency 'mumukit-bridge', '~> 3.5'
+  spec.add_dependency 'mumukit-auth', '~> 7.0'
 
   spec.add_dependency 'git'
   spec.add_dependency 'octokit', '~> 4.1'
