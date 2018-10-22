@@ -9,9 +9,10 @@
 
 module Mumukit::Sync
   class Syncer
-    def initialize(store, inflators = [])
+    def initialize(store, inflators = [], resource_classifier = nil)
       @store = store
       @inflators = inflators
+      @resource_classifier ||= proc { |kind| Mumukit::Sync.constantize(kind) }
     end
 
     def sync_keys_matching(id_regex = nil)
@@ -19,33 +20,52 @@ module Mumukit::Sync
       @store.sync_keys.select { |key| id_regex.matches? key.id }
     end
 
-    def import_all!(id_regex = nil, resource_classifier = proc { |kind| kind.to_s.classify.constantize })
+    def import_all!(id_regex = nil)
       sync_keys_matching(id_regex).each do |key|
         puts "Importing #{key.kind} #{key.id}"
         begin
-          import! resource_classifier.call(key.kind).locate_resource(key.id)
+          locate_and_import! key
         rescue => e
           puts "Ignoring #{key.id} because of import error #{e}"
         end
       end
     end
 
+    def locate_and_import!(*args)
+      locate(key_for(*args)).tap { |it| import! it }
+    end
+
     def import!(resource)
       resource_h = @store.read_resource(resource.sync_key)
-      @inflators.each { |it| it.inflate! resource_h }
+      @inflators.each { |it| it.inflate! resource.sync_key, resource_h }
       resource.import_from_resource_h!(resource_h)
+    end
+
+    def locate_and_export!(*args)
+      locate(key_for(*args)).tap { |it| export! it }
     end
 
     def export!(resource)
       resource_h = resource.to_resource_h
-      @destination.write_resource!(resource.sync_key, resource_h)
+      @store.write_resource!(resource.sync_key, resource_h)
+    end
+
+    private
+
+    def locate(key)
+      @resource_classifier.call(key.kind).locate_resource(key.id)
+    end
+
+    def key_for(*args)
+      args.size == 1 ? args.first : Mumukit::Sync.key(*args)
     end
   end
 end
 
 module Mumukit::Sync::Inflator
   class SingleChoice
-    def inflate!(resource_h)
+    def inflate!(key, resource_h)
+      return unless key.kind == :guide
       return unless resource_h[:language][:name] == 'text'
       return unless resource_h[:editor] == 'single_choice'
       resource_h[:test] = single_choices_to_test
@@ -58,7 +78,8 @@ module Mumukit::Sync::Inflator
   end
 
   class MultipleChoice
-    def inflate!(resource_h)
+    def inflate!(key, resource_h)
+      return unless key.kind == :guide
       return unless resource_h[:language][:name] == 'text'
       return unless resource_h[:editor] == 'multiple_choice'
       resource_h[:test] = multiple_choices_to_test

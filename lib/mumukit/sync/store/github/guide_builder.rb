@@ -35,7 +35,7 @@ class Mumukit::Sync::Store::Github
        teacher_info: teacher_info,
        id_format: id_format,
        slug: slug,
-       expectations: expectations || [],
+       expectations: expectations.to_a,
        exercises: exercises.sort_by { |e| order.position_for(e[:id]) }}
     end
 
