@@ -63,29 +63,32 @@ module Mumukit::Sync
 end
 
 module Mumukit::Sync::Inflator
-  class SingleChoice
+  class Choice
     def inflate!(key, resource_h)
       return unless key.kind == :guide
       return unless resource_h[:language][:name] == 'text'
-      return unless resource_h[:editor] == 'single_choice'
-      resource_h[:test] = single_choices_to_test
+      return unless resource_h[:editor] == editor_type
+      resource_h[:test] = choices_to_test
+    end
+  end
+
+  class SingleChoice < Choice
+    def editor_type
+      'single_choice'
     end
 
-    def single_choices_to_test
+    def choices_to_test
       choice = choices.find { |choice| choice['checked'] }
       {'equal' => choice['value']}.to_yaml
     end
   end
 
-  class MultipleChoice
-    def inflate!(key, resource_h)
-      return unless key.kind == :guide
-      return unless resource_h[:language][:name] == 'text'
-      return unless resource_h[:editor] == 'multiple_choice'
-      resource_h[:test] = multiple_choices_to_test
+  class MultipleChoice < Choice
+    def editor_type
+      'multiple_choice'
     end
 
-    def multiple_choices_to_test
+    def choices_to_test
       value = choices.each_with_index
                 .map { |choice, index| choice.merge('index' => index.to_s) }
                 .select { |choice| choice['checked'] }
