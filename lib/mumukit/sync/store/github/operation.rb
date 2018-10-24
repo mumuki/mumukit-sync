@@ -43,16 +43,13 @@ class Mumukit::Sync::Store::Github
     def before_run_in_local_repo
     end
 
-    def after_run_in_local_repo
-    end
-
     def run_in_local_repo(dir, local_repo)
     end
 
     private
 
     def new_log
-      Bibliotheca::IO::Log.new
+      Mumukit::Sync::Store::Github::Log.new
     end
   end
 end

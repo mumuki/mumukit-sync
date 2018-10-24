@@ -8,12 +8,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def run_in_local_repo(dir, local_repo)
-      @guide = GuideReader.new(dir, repo, log).read_guide!
-      @guide.validate!
-    end
-
-    def after_run_in_local_repo
-      Bibliotheca::Collection::Guides.upsert_by_slug(guide.slug, guide)
+      GuideReader.new(dir, repo, log).read_guide!
     end
   end
 end

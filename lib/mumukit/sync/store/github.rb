@@ -12,13 +12,13 @@ module Mumukit::Sync::Store
     def read_resource(sync_key)
       return unless sync_key.kind == :guide
 
-      Bibliotheca::IO::GuideImport.new(bot: @bot, repo: sync_key.id).run!
+      Mumukit::Sync::Store::Github::GuideImport.new(bot: @bot, repo: sync_key.id).run!
     end
 
     def write_resource!(sync_key, resource_h)
       return unless sync_key.kind == :guide
 
-      Bibliotheca::IO::GuideExport.new(
+      Mumukit::Sync::Store::Github::GuideExport.new(
         slug: sync_key.id,
         document: resource_h,
         author_email: @author_email,
