@@ -14,7 +14,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
 
     before { reader.read_exercises { |it| results << it } }
 
-    it { expect(results.size).to eq 5 }
+    it { expect(results.size).to eq 6 }
     it { expect(log.messages).to eq ['Description does not exist for sample_broken'] }
   end
 
@@ -24,7 +24,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
       let(:guide) { reader.read_guide! }
 
       it { expect(guide[:slug]).to eq 'mumuki/functional-haskell-guide-1'}
-      it { expect(guide[:exercises].count).to eq 5 }
+      it { expect(guide[:exercises].count).to eq 6 }
       it { expect(guide[:description]).to eq "Awesome guide\n" }
       it { expect(guide[:language][:name]).to eq 'haskell' }
       it { expect(guide[:locale]).to eq 'en' }
@@ -96,7 +96,15 @@ describe Mumukit::Sync::Store::Github::GuideReader do
         it { expect(imported_exercise[:description]).to eq "Now read the following text\n"}
 
       end
+
+      context 'when importing free_form' do
+        let(:imported_exercise) { find_exercise_by_id(guide, 7) }
+
+        it { expect(imported_exercise).to_not be nil }
+        it { expect(imported_exercise[:free_form_editor_source]).to_not be_nil}
+      end
     end
+
     context 'when guide is incomplete' do
       let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/incompelete-guide', repo, log) }
 

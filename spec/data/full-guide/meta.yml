@@ -3,5 +3,6 @@ language: haskell
 locale: en
 type: learning
 beta: true
+id_format: '%05d'
 order:
 - 1

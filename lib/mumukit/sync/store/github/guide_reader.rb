@@ -98,6 +98,7 @@ class Mumukit::Sync::Store::Github
         builder.default = exercise_reader.default(root)
         builder.expectations = exercise_reader.expectations(root)
         builder.assistance_rules = exercise_reader.assistance_rules(root)
+        builder.free_form_editor_source = exercise_reader.free_form_editor_source(root)
         builder.randomizations = exercise_reader.randomizations(root)
         yield builder
       end
