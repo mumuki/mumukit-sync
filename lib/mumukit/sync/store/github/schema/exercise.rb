@@ -37,26 +37,5 @@ module Mumukit::Sync::Store::Github::Schema::Exercise
   def self.yaml_list(key)
     proc { |it| {key => it.map(&:stringify_keys)}.to_yaml }
   end
-
-  def self.new_field(it)
-    Field.new(it)
-  end
-
-  class Field < Mumukit::Sync::Store::Github::Schema::Field
-    def get_file_name(guide)
-      "#{name}.#{get_file_extension(guide)}"
-    end
-
-    def get_file_extension(guide)
-      case extension
-        when :code then
-          guide[:language][:extension]
-        when :test then
-          guide[:language][:test_extension]
-        else
-          extension
-      end
-    end
-  end
 end
 

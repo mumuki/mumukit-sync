@@ -47,6 +47,10 @@ class Mumukit::Sync::Store::Github
     end
 
     class Field < OpenStruct
+      def get_file_name(language)
+        "#{name}.#{get_file_extension(language)}"
+      end
+
       def get_field_value(document)
         t = transform || proc { |it| it }
         t.call document[reverse_name]
@@ -58,6 +62,17 @@ class Mumukit::Sync::Store::Github
 
       def reverse_name
         reverse || name
+      end
+
+      def get_file_extension(language)
+        case extension
+          when :code then
+            language[:extension]
+          when :test then
+            language[:test_extension]
+          else
+            extension
+        end
       end
     end
   end

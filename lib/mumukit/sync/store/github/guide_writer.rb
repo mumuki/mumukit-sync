@@ -32,7 +32,7 @@ class Mumukit::Sync::Store::Github
       write_file!(dirname, 'meta.yml', metadata_yaml(e))
 
       Mumukit::Sync::Store::Github::Schema::Exercise.file_fields.each do |it|
-        file_name = it.get_file_name(guide)
+        file_name = it.get_file_name(e[:language] || guide[:language])
         write_file! dirname, file_name, it.get_field_value(e) if it.field_value_present?(e)
       end
     end

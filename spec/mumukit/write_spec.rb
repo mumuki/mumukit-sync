@@ -177,8 +177,8 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
         it { expect(File.read 'spec/data/export/00300_multiple/meta.yml').to eq "---\ntags:\n- mult\nlayout: input_right\neditor: multiple_choice\ntype: problem\nextra_visible: false\nlanguage: text\nmanual_evaluation: false\nchoices:\n- value: foo\n  checked: true\n- value: bar\n  checked: false\nname: multiple\n" }
 
 
-        it { expect(File.exist? 'spec/data/export/00300_multiple/test.hs').to be true }
-        it { expect(File.read 'spec/data/export/00300_multiple/test.hs').to eq "---\nequal: '0'\n" }
+        it { expect(File.exist? 'spec/data/export/00300_multiple/test.yml').to be true }
+        it { expect(File.read 'spec/data/export/00300_multiple/test.yml').to eq "---\nequal: '0'\n" }
 
         it { expect(File.exist? 'spec/data/export/00300_multiple/expectations.yml').to be false }
       end
