@@ -1,8 +1,9 @@
 module Mumukit::Sync::Store
   class Github
-    def initialize(bot, author_email = nil)
+    def initialize(bot, author_email = nil, web_hook_base_url = nil)
       @bot = bot
       @author_email = author_email || bot.email
+      @web_hook_base_url = web_hook_base_url
     end
 
     def sync_keys
@@ -22,6 +23,7 @@ module Mumukit::Sync::Store
         slug: sync_key.id,
         document: resource_h,
         author_email: @author_email,
+        web_hook_base_url: @web_hook_base_url,
         bot: @bot).run!
     end
   end

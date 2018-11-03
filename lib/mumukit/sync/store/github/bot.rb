@@ -23,10 +23,10 @@ class Mumukit::Sync::Store::Github
       raise e
     end
 
-    def register_post_commit_hook!(slug)
+    def register_post_commit_hook!(slug, web_hook_base_url)
       octokit.create_hook(
         slug.to_s, 'web',
-        {url: slug.bibliotheca_guide_web_hook_url, content_type: 'json'},
+        {url: "#{web_hook_base_url}/#{to_s}", content_type: 'json'},
         {events: ['push'],
          active: true})
     rescue => e

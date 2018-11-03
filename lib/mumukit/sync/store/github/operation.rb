@@ -4,6 +4,7 @@ class Mumukit::Sync::Store::Github
 
     def initialize(options)
       @bot = options[:bot]
+      @web_hook_base_url = options[:web_hook_base_url]
     end
 
     def with_local_repo(&block)
@@ -34,7 +35,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def ensure_post_commit_hook!
-      bot.register_post_commit_hook!(repo) if bot.authenticated?
+      bot.register_post_commit_hook!(repo, @web_hook_base_url) if bot.authenticated? && @web_hook_base_url
     end
 
     def before_run_in_local_repo
