@@ -30,7 +30,8 @@ module Mumukit::Sync::Store::Github::Schema::Exercise
       {name: :hint, kind: :file, extension: 'md'},
       {name: :corollary, kind: :file, extension: 'md'},
       {name: :initial_state, kind: :file, extension: 'md'},
-      {name: :final_state, kind: :file, extension: 'md'}
+      {name: :final_state, kind: :file, extension: 'md'},
+      {name: :free_form_editor_source, kind: :file, extension: 'html'}
     ]
   end
 
