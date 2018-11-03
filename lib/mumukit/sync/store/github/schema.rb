@@ -52,7 +52,12 @@ class Mumukit::Sync::Store::Github
       end
 
       def get_field_value(document)
-        t = transform || proc { |it| it }
+        t = case transform
+          when nil then proc { |it| it }
+          when :name then proc { |it| it&.dig(:name) }
+          else transform
+        end
+
         t.call document[reverse_name]
       end
 

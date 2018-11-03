@@ -95,37 +95,6 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
     before { Dir.mkdir(dir) }
     after { FileUtils.rm_rf(dir) }
 
-    describe '#write_meta' do
-      before { writer.write_meta! guide }
-
-      it { expect(File.exist? 'spec/data/export/meta.yml').to be true }
-      it { expect(File.read 'spec/data/export/meta.yml').to eq "---\nname: Guide Name\nlocale: en\ntype: practice\nbeta: false\nteacher_info: an info\nlanguage: haskell\nid_format: \"%05d\"\norder:\n- 100\n- 200\n- 300\n- 400\n" }
-    end
-
-    describe '#write_description' do
-      before { writer.write_description! guide }
-      it { expect(File.exist? 'spec/data/export/description.md').to be true }
-      it { expect(File.read 'spec/data/export/description.md').to eq 'Baz' }
-    end
-
-    describe '#write_authors' do
-      before { writer.write_authors! guide }
-      it { expect(File.exist? 'spec/data/export/AUTHORS.txt').to be true }
-      it { expect(File.read 'spec/data/export/AUTHORS.txt').to eq 'Foo Bar' }
-    end
-
-    describe '#write_collaborators' do
-      before { writer.write_collaborators! guide }
-      it { expect(File.exist? 'spec/data/export/COLLABORATORS.txt').to be true }
-      it { expect(File.read 'spec/data/export/COLLABORATORS.txt').to eq 'Jhon Doe' }
-    end
-
-    describe '#write_extra' do
-      before { writer.write_extra! guide }
-      it { expect(File.exist? 'spec/data/export/extra.hs').to be true }
-      it { expect(File.read 'spec/data/export/extra.hs').to eq 'Foo' }
-    end
-
     describe '#write_exercise' do
       context 'with extra' do
         before { writer.write_exercise! guide, exercise_1 }
@@ -226,6 +195,12 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
       it { expect(File.exist? 'spec/data/export/COPYRIGHT.txt').to be true }
       it { expect(File.exist? 'spec/data/export/COLLABORATORS.txt').to be true }
       it { expect(Dir['spec/data/export/*'].size).to eq 12 }
+
+      it { expect(File.read 'spec/data/export/extra.hs').to eq 'Foo' }
+      it { expect(File.read 'spec/data/export/meta.yml').to eq "---\nname: Guide Name\nlocale: en\ntype: practice\nbeta: false\nteacher_info: an info\nlanguage: haskell\nid_format: \"%05d\"\norder:\n- 100\n- 200\n- 300\n- 400\n" }
+      it { expect(File.read 'spec/data/export/description.md').to eq 'Baz' }
+      it { expect(File.read 'spec/data/export/AUTHORS.txt').to eq 'Foo Bar' }
+      it { expect(File.read 'spec/data/export/COLLABORATORS.txt').to eq 'Jhon Doe' }
     end
   end
 end

@@ -12,7 +12,7 @@ module Mumukit::Sync::Store::Github::Schema::Exercise
 
       {name: :type, kind: :metadata},
       {name: :extra_visible, kind: :metadata},
-      {name: :language, kind: :metadata, transform: proc { |it| it&.dig(:name) } },
+      {name: :language, kind: :metadata, transform: :name },
       {name: :teacher_info, kind: :metadata},
       {name: :manual_evaluation, kind: :metadata},
       {name: :choices, kind: :metadata},

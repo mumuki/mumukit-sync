@@ -7,17 +7,28 @@ class Mumukit::Sync::Store::Github
       @log = log
     end
 
+    def write_file_fields!(base_path, schema, element, language)
+      schema.file_fields.each do |it|
+        file_name = it.get_file_name(language)
+        write_file! base_path, file_name, it.get_field_value(element) if it.field_value_present?(element)
+      end
+    end
+
+    def write_metadata_fields!(base_path, schema, e)
+      metadata = schema.metadata_fields.map do |field|
+        [field.name.to_s, field.get_field_value(e)]
+      end.to_h.compact.merge('name' => e[:name]).to_yaml
+      write_file! base_path, 'meta.yml', metadata
+    end
+
     def write_guide!(guide)
       guide[:exercises].each do |e|
         write_exercise! guide, e
       end
-      write_description!(guide)
-      write_corollary!(guide)
-      write_meta!(guide)
-      write_extra!(guide)
-      write_authors!(guide)
       write_licenses!(guide)
-      write_collaborators!(guide)
+
+      write_metadata_fields! dir, Mumukit::Sync::Store::Github::Schema::Guide, guide
+      write_file_fields! dir, Mumukit::Sync::Store::Github::Schema::Guide, guide, guide[:language]
     end
 
     def format_id(guide, exercise)
@@ -29,45 +40,8 @@ class Mumukit::Sync::Store::Github
 
       FileUtils.mkdir_p dirname
 
-      write_file!(dirname, 'meta.yml', metadata_yaml(e))
-
-      Mumukit::Sync::Store::Github::Schema::Exercise.file_fields.each do |it|
-        file_name = it.get_file_name(e[:language] || guide[:language])
-        write_file! dirname, file_name, it.get_field_value(e) if it.field_value_present?(e)
-      end
-    end
-
-    def write_authors!(guide)
-      write_file! dir, 'AUTHORS.txt', guide[:authors]
-    end
-
-    def write_collaborators!(guide)
-      write_file! dir, 'COLLABORATORS.txt', guide[:collaborators]
-    end
-
-    def write_description!(guide)
-      write_file! dir, 'description.md', guide[:description]
-    end
-
-    def write_corollary!(guide)
-      write_file! dir, 'corollary.md', guide[:corollary] if guide[:corollary].present?
-    end
-
-    def write_meta!(guide)
-      write_file! dir, 'meta.yml', {
-        'name' => guide[:name],
-        'locale' => guide[:locale],
-        'type' => guide[:type],
-        'beta' => guide[:beta],
-        'teacher_info' => guide[:teacher_info],
-        'language' => guide[:language][:name],
-        'id_format' => guide[:id_format],
-        'order' => guide[:exercises].map { |e| e[:id] }
-      }.to_yaml
-    end
-
-    def write_extra!(guide)
-      write_file!(dir, extra_filename(guide), guide[:extra]) if guide[:extra].present?
+      write_metadata_fields! dirname, Mumukit::Sync::Store::Github::Schema::Exercise, e
+      write_file_fields! dirname, Mumukit::Sync::Store::Github::Schema::Exercise, e, (e[:language] || guide[:language])
     end
 
     def write_licenses!(guide)
@@ -77,16 +51,6 @@ class Mumukit::Sync::Store::Github
     end
 
     private
-
-    def metadata_yaml(e)
-      Mumukit::Sync::Store::Github::Schema::Exercise.metadata_fields.map do |field|
-        [field.name.to_s, field.get_field_value(e)]
-      end.to_h.compact.merge('name' => e[:name]).to_yaml
-    end
-
-    def extra_filename(guide)
-      "extra.#{guide[:language][:extension]}"
-    end
 
     def default_filename(guide)
       "default.#{guide[:language][:extension]}"
