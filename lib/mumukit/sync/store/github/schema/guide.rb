@@ -12,9 +12,9 @@ module Mumukit::Sync::Store::Github::Schema::Guide
       {name: :type, kind: :metadata},
       {name: :beta, kind: :metadata},
       {name: :teacher_info, kind: :metadata},
-      {name: :language, kind: :metadata, transform: :name },
+      {name: :language, kind: :metadata, transform: name },
       {name: :id_format, kind: :metadata, default: '%05d'},
-      {name: :order, kind: :metadata, transform: proc { |it| it.map { |e| e[:id] } }, reverse: :exercises},
+      {name: :order, kind: :metadata, transform: with { |it| it.map { |e| e[:id] } }, reverse: :exercises},
       {name: :private, kind: :metadata},
       {name: :expectations},
 

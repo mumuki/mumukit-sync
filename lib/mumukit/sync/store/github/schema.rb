@@ -40,6 +40,24 @@ class Mumukit::Sync::Store::Github
       json.slice(*fields.map(&:reverse_name))
     end
 
+    def yaml_hash
+      struct to: proc(&:to_yaml),
+             from: proc { |path| YAML.load_file(path) }
+    end
+
+    def yaml_list(key)
+      struct to: proc { |it| {key => it.map(&:stringify_keys)}.to_yaml },
+             from: proc { |path| YAML.load_file(path).try { |it| it[key] } }
+    end
+
+    def name
+      with { |it| it&.dig(:name) }
+    end
+
+    def with(&block)
+      struct to: block, from: proc { |it| File.read(it) }
+    end
+
     private
 
     def new_field(it)
@@ -51,6 +69,10 @@ class Mumukit::Sync::Store::Github
         reverse || name
       end
 
+      def safe_transform
+        transform || struct(to: proc { |it| it }, from: proc { |it| File.read(it) })
+      end
+
       ## Writing fields to Github
 
       def get_file_name(language)
@@ -58,13 +80,7 @@ class Mumukit::Sync::Store::Github
       end
 
       def get_field_value(document)
-        t = case transform
-          when nil then proc { |it| it }
-          when :name then proc { |it| it&.dig(:name) }
-          else transform
-        end
-
-        t.call document[reverse_name]
+        safe_transform.to.call document[reverse_name]
       end
 
       def field_value_present?(document)
@@ -96,9 +112,9 @@ class Mumukit::Sync::Store::Github
       end
 
       def read_field_file(root)
-        t = reverse_transform || proc { |it| File.read(it) }
-        find_file_name(root).try { |it| t.call it }
+        find_file_name(root).try { |it| safe_transform.from.call it }
       end
+
     end
   end
 end

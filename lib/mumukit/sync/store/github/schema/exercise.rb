@@ -6,20 +6,20 @@ module Mumukit::Sync::Store::Github::Schema::Exercise
       {name: :id, kind: :special},
       {name: :name, kind: :special},
 
-      {name: :tags, kind: :metadata, reverse: :tag_list, transform: proc { |it| it.to_a }},
+      {name: :tags, kind: :metadata, reverse: :tag_list, transform: with { |it| it.to_a }},
       {name: :layout, kind: :metadata},
       {name: :editor, kind: :metadata},
 
       {name: :type, kind: :metadata},
       {name: :extra_visible, kind: :metadata},
-      {name: :language, kind: :metadata, transform: :name },
+      {name: :language, kind: :metadata, transform: name },
       {name: :teacher_info, kind: :metadata},
       {name: :manual_evaluation, kind: :metadata},
       {name: :choices, kind: :metadata},
 
-      {name: :expectations,     kind: :file, extension: 'yml', transform: yaml_list('expectations'), reverse_transform: reverse_yaml_list('expectations')},
-      {name: :assistance_rules, kind: :file, extension: 'yml', transform: yaml_list('rules'),        reverse_transform: reverse_yaml_list('rules')},
-      {name: :randomizations,   kind: :file, extension: 'yml', transform: yaml_hash,                 reverse_transform: reverse_yaml_hash},
+      {name: :expectations,     kind: :file, extension: 'yml', transform: yaml_list('expectations')},
+      {name: :assistance_rules, kind: :file, extension: 'yml', transform: yaml_list('rules')},
+      {name: :randomizations,   kind: :file, extension: 'yml', transform: yaml_hash},
 
       {name: :goal, kind: :metadata},
       {name: :test, kind: :file, extension: :test},
@@ -33,21 +33,5 @@ module Mumukit::Sync::Store::Github::Schema::Exercise
       {name: :final_state, kind: :file, extension: 'md'},
       {name: :free_form_editor_source, kind: :file, extension: 'html'}
     ]
-  end
-
-  def self.yaml_hash
-    proc(&:to_yaml)
-  end
-
-  def self.yaml_list(key)
-    proc { |it| {key => it.map(&:stringify_keys)}.to_yaml }
-  end
-
-  def self.reverse_yaml_hash
-    proc { |path| YAML.load_file(path) }
-  end
-
-  def self.reverse_yaml_list(key)
-    proc { |path| YAML.load_file(path).try { |it| it[key] } }
   end
 end
