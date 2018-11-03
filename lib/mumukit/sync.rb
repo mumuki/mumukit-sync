@@ -25,3 +25,4 @@ require 'mumukit/core'
 
 require_relative './sync/syncer'
 require_relative './sync/store'
+require_relative './sync/inflator'
