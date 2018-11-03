@@ -2,48 +2,24 @@ class Mumukit::Sync::Store::Github
   class GuideReader
     include Mumukit::Sync::Store::Github::WithFileReading
 
-    attr_reader :dir, :log
+    attr_reader :dir
 
-    def initialize(dir, repo, log)
+    def initialize(dir, repo)
       @dir = File.expand_path(dir)
       @slug = repo.to_s
-      @log = log
     end
 
     def read_guide!
       builder = GuideBuilder.new(@slug)
 
       read_meta! builder
-      read_description! builder
-      read_corollary! builder
-      read_extra! builder
-      read_authors! builder
+      Mumukit::Sync::Store::Github::Schema::Guide.file_fields.each do |it|
+        value = it.read_field_file(dir)
+        builder[it.reverse_name] = value
+      end
       read_exercises! builder
-      read_collaborators! builder
 
       builder.build
-    end
-
-    def read_description!(builder)
-      description = read_file(File.join(dir, 'description.md'))
-      raise 'Missing description file' unless description
-      builder.description = description
-    end
-
-    def read_corollary!(builder)
-      builder.corollary = read_file(File.join(dir, 'corollary.md'))
-    end
-
-    def read_authors!(builder)
-      builder.authors = read_file(File.join(dir, 'AUTHORS.txt'))
-    end
-
-    def read_collaborators!(builder)
-      builder.collaborators = read_file(File.join(dir, 'COLLABORATORS.txt'))
-    end
-
-    def read_extra!(builder)
-      builder.extra = read_code_file(dir, 'extra')
     end
 
     def read_meta!(builder)
@@ -83,23 +59,17 @@ class Mumukit::Sync::Store::Github
     def read_exercises
       each_exercise_file do |root, position, id, name|
         builder = ExerciseBuilder.new
-        exercise_reader = ExerciseReader.new(dir)
 
-        meta = exercise_reader.meta(root) || (log.no_meta(name); next)
+        meta = read_yaml_file(File.join(root, 'meta.yml'))
 
         builder.meta = meta
         builder.id = id
         builder.name = meta['name'] || name
-        builder.description = exercise_reader.markdown(root, 'description') || (log.no_description name; next)
-        builder.hint = exercise_reader.markdown(root, 'hint')
-        builder.corollary = exercise_reader.markdown(root, 'corollary')
-        builder.test = exercise_reader.test_code(root)
-        builder.extra = exercise_reader.extra(root)
-        builder.default = exercise_reader.default(root)
-        builder.expectations = exercise_reader.expectations(root)
-        builder.assistance_rules = exercise_reader.assistance_rules(root)
-        builder.free_form_editor_source = exercise_reader.free_form_editor_source(root)
-        builder.randomizations = exercise_reader.randomizations(root)
+
+        Mumukit::Sync::Store::Github::Schema::Exercise.file_fields.each do |it|
+          value = it.read_field_file(root)
+          builder[it.reverse_name] = value
+        end
         yield builder
       end
     end

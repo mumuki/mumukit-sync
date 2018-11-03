@@ -9,11 +9,11 @@ class Mumukit::Sync::Store::Github
     end
 
     def read_yaml_file(path)
-      YAML.load_file(path) if File.exist? path
+      YAML.load_file(path) if path && File.exist?(path)
     end
 
     def read_file(path)
-      File.read(path) if File.exist? path
+      File.read(path) if path && File.exist?(path)
     end
   end
 end

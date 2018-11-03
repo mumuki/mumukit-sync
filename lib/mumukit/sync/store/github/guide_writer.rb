@@ -1,10 +1,9 @@
 class Mumukit::Sync::Store::Github
   class GuideWriter
-    attr_accessor :dir, :log
+    attr_accessor :dir
 
-    def initialize(dir, log)
+    def initialize(dir)
       @dir = dir
-      @log = log
     end
 
     def write_file_fields!(base_path, schema, element, language)

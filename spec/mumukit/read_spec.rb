@@ -1,11 +1,10 @@
 require 'spec_helper'
 
 describe Mumukit::Sync::Store::Github::GuideReader do
-  let(:log) { Mumukit::Sync::Store::Github::Log.new }
   let(:repo) { Mumukit::Auth::Slug.new('mumuki', 'functional-haskell-guide-1') }
 
   context 'when optional properties are specified' do
-    let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/full-guide', repo, log) }
+    let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/full-guide', repo) }
     let!(:guide) { reader.read_guide! }
 
     it { expect(guide[:id_format]).to eq '%05d' }
@@ -17,7 +16,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
   end
 
   context 'when removing that properties and reimporting the guide' do
-    let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo, log) }
+    let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo) }
     let!(:guide) { reader.read_guide! }
 
     it { expect(guide[:id_format]).to eq '%05d' }

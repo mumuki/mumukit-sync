@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Mumukit::Sync::Store::Github::GuideWriter do
 
   let(:bot) { Mumukit::Sunc::Store::Github::Bot.new('mumukibot', 'zaraza') }
-  let(:log) { Mumukit::Sync::Store::Github::Log.new }
 
   let!(:exercise_1) { guide[:exercises].first }
   let(:exercise_2) { guide[:exercises].second }
@@ -87,7 +86,7 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
            choices: [{'value' => 'foo', 'checked' => true}, {'value' => 'bar', 'checked' => false}]
            }]} }
 
-  let(:writer) { Mumukit::Sync::Store::Github::GuideWriter.new(dir, log) }
+  let(:writer) { Mumukit::Sync::Store::Github::GuideWriter.new(dir) }
 
   describe 'write methods' do
     let(:dir) { 'spec/data/export' }

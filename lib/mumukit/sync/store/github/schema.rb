@@ -47,6 +47,12 @@ class Mumukit::Sync::Store::Github
     end
 
     class Field < OpenStruct
+      def reverse_name
+        reverse || name
+      end
+
+      ## Writing fields to Github
+
       def get_file_name(language)
         "#{name}.#{get_file_extension(language)}"
       end
@@ -65,19 +71,33 @@ class Mumukit::Sync::Store::Github
         document[reverse_name].present?
       end
 
-      def reverse_name
-        reverse || name
-      end
-
       def get_file_extension(language)
         case extension
-          when :code then
-            language[:extension]
-          when :test then
-            language[:test_extension]
-          else
-            extension
+        when :code then
+          language[:extension]
+        when :test then
+          language[:test_extension]
+        else
+          extension
         end
+      end
+
+      ## Reading fields from Github
+
+      def find_file_name(root)
+        files = Dir.glob("#{root}/#{name}.*")
+        if files.length == 1
+          files[0]
+        elsif files.empty? && required
+          raise "Missing #{name} file"
+        else
+          nil
+        end
+      end
+
+      def read_field_file(root)
+        t = reverse_transform || proc { |it| File.read(it) }
+        find_file_name(root).try { |it| t.call it }
       end
     end
   end

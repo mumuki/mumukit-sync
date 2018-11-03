@@ -17,16 +17,16 @@ module Mumukit::Sync::Store::Github::Schema::Exercise
       {name: :manual_evaluation, kind: :metadata},
       {name: :choices, kind: :metadata},
 
-      {name: :expectations, kind: :file, extension: 'yml', transform: yaml_list('expectations')},
-      {name: :assistance_rules, kind: :file, extension: 'yml', transform: yaml_list('rules')},
-      {name: :randomizations, kind: :file, extension: 'yml'},
+      {name: :expectations,     kind: :file, extension: 'yml', transform: yaml_list('expectations'), reverse_transform: reverse_yaml_list('expectations')},
+      {name: :assistance_rules, kind: :file, extension: 'yml', transform: yaml_list('rules'),        reverse_transform: reverse_yaml_list('rules')},
+      {name: :randomizations,   kind: :file, extension: 'yml', transform: yaml_hash,                 reverse_transform: reverse_yaml_hash},
 
       {name: :goal, kind: :metadata},
       {name: :test, kind: :file, extension: :test},
       {name: :extra, kind: :file, extension: :code},
       {name: :default, kind: :file, extension: :code, reverse: :default_content},
 
-      {name: :description, kind: :file, extension: 'md'},
+      {name: :description, kind: :file, extension: 'md', required: true},
       {name: :hint, kind: :file, extension: 'md'},
       {name: :corollary, kind: :file, extension: 'md'},
       {name: :initial_state, kind: :file, extension: 'md'},
@@ -35,8 +35,19 @@ module Mumukit::Sync::Store::Github::Schema::Exercise
     ]
   end
 
+  def self.yaml_hash
+    proc(&:to_yaml)
+  end
+
   def self.yaml_list(key)
     proc { |it| {key => it.map(&:stringify_keys)}.to_yaml }
   end
-end
 
+  def self.reverse_yaml_hash
+    proc { |path| YAML.load_file(path) }
+  end
+
+  def self.reverse_yaml_list(key)
+    proc { |path| YAML.load_file(path).try { |it| it[key] } }
+  end
+end

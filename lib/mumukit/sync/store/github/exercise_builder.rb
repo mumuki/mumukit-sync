@@ -9,7 +9,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def build_simple_fields
-      Mumukit::Sync::Store::Github::Schema::Exercise.simple_fields.map { |field| [field.reverse_name, self.send(field.name)] }.to_h
+      Mumukit::Sync::Store::Github::Schema::Exercise.simple_fields.map { |field| [field.reverse_name, self.send(field.reverse_name)] }.to_h
     end
 
     def build_metadata

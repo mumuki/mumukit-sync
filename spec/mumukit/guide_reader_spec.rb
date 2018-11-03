@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Mumukit::Sync::Store::Github::GuideReader do
-  let(:log) { Mumukit::Sync::Store::Github::Log.new }
   let(:repo) { Mumukit::Auth::Slug.new('mumuki', 'functional-haskell-guide-1') }
 
   def find_exercise_by_id(guide, id)
@@ -9,18 +8,14 @@ describe Mumukit::Sync::Store::Github::GuideReader do
   end
 
   describe 'read_exercises' do
-    let(:results) { [] }
-    let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo, log) }
+    let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide', repo) }
 
-    before { reader.read_exercises { |it| results << it } }
-
-    it { expect(results.size).to eq 6 }
-    it { expect(log.messages).to eq ['Description does not exist for sample_broken'] }
+    it { expect { reader.read_guide! }.to raise_error('Missing description file') }
   end
 
   describe '#read_guide!' do
     context 'when guide is ok' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo, log) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo) }
       let(:guide) { reader.read_guide! }
 
       it { expect(guide[:slug]).to eq 'mumuki/functional-haskell-guide-1'}
@@ -106,14 +101,14 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     end
 
     context 'when guide is incomplete' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/incompelete-guide', repo, log) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/incompelete-guide', repo) }
 
       it 'fails' do
         expect { reader.read_guide! }.to raise_error('Missing meta.yml')
       end
     end
     context 'when guide has full data' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/full-guide', repo, log) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/full-guide', repo) }
       let!(:guide) { reader.read_guide! }
 
       it { expect(guide[:name]).to eq 'Introduction' }
@@ -128,7 +123,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     end
 
     context 'when guide has legacy data' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/legacy-guide', repo, log) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/legacy-guide', repo) }
       let!(:guide) { reader.read_guide! }
 
       it { expect(guide[:name]).to eq 'Introduction' }

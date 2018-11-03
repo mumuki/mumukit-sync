@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe 'read-write' do
   let(:repo) { Mumukit::Auth::Slug.new('mumuki', 'functional-haskell-guide-1') }
-  let(:export_log) { Mumukit::Sync::Store::Github::Log.new }
-  let(:import_log) { Mumukit::Sync::Store::Github::Log.new }
   let(:guide) { {
       description: 'Baz',
       slug: 'flbulgarelli/never-existent-repo',
@@ -38,16 +36,13 @@ describe 'read-write' do
 
   let(:imported_guide) do
     FileUtils.mkdir_p dir
-    Mumukit::Sync::Store::Github::GuideWriter.new(dir, export_log).write_guide! guide
-    Mumukit::Sync::Store::Github::GuideReader.new(dir, repo, import_log).read_guide!
+    Mumukit::Sync::Store::Github::GuideWriter.new(dir).write_guide! guide
+    Mumukit::Sync::Store::Github::GuideReader.new(dir, repo).read_guide!
   end
 
   after do
     FileUtils.rm_rf dir
   end
-
-  it { expect(import_log.to_s).to eq '' }
-  it { expect(export_log.to_s).to eq '' }
 
   it { expect(imported_guide[:exercises].length).to eq 3 }
   it { expect(imported_guide[:exercises].first[:name]).to eq 'Bar' }

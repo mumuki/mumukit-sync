@@ -18,7 +18,7 @@ module Mumukit::Sync::Store::Github::Schema::Guide
       {name: :private, kind: :metadata},
       {name: :expectations},
 
-      {name: :description, kind: :file, extension: 'md'},
+      {name: :description, kind: :file, extension: 'md', required: true},
       {name: :corollary, kind: :file, extension: 'md'},
       {name: :extra, kind: :file, extension: :code},
       {name: :AUTHORS, kind: :file, extension: 'txt', reverse: :authors},

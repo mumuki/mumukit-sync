@@ -1,10 +1,9 @@
 class Mumukit::Sync::Store::Github
   class Operation
-    attr_accessor :log, :bot
+    attr_accessor :bot
 
     def initialize(options)
       @bot = options[:bot]
-      @log = new_log
     end
 
     def with_local_repo(&block)
@@ -23,17 +22,15 @@ class Mumukit::Sync::Store::Github
       puts "#{self.class.name} : running before run hook for repository #{repo}"
       before_run_in_local_repo
 
-      log.with_error_logging do
-        with_local_repo do |dir, local_repo|
-          puts "#{self.class.name} : running run hook for repository #{repo}"
-          run_in_local_repo dir, local_repo
-        end
+      result = nil
+      with_local_repo do |dir, local_repo|
+        puts "#{self.class.name} : running run hook for repository #{repo}"
+        result = run_in_local_repo dir, local_repo
       end
 
       puts "#{self.class.name} : running after run hook repository #{repo}"
-      after_run_in_local_repo.tap do
-        ensure_post_commit_hook!
-      end
+      ensure_post_commit_hook!
+      result
     end
 
     def ensure_post_commit_hook!
@@ -44,12 +41,6 @@ class Mumukit::Sync::Store::Github
     end
 
     def run_in_local_repo(dir, local_repo)
-    end
-
-    private
-
-    def new_log
-      Mumukit::Sync::Store::Github::Log.new
     end
   end
 end
