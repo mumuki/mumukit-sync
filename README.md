@@ -1,3 +1,9 @@
+[![Stories in Ready](https://badge.waffle.io/mumuki/mumukit-sync.png?label=ready&title=Ready)](https://waffle.io/mumuki/mumukit-sync)
+[![Build Status](https://travis-ci.org/mumuki/mumukit-sync.svg?branch=master)](https://travis-ci.org/mumuki/mumukit-sync)
+[![Code Climate](https://codeclimate.com/github/mumuki/mumukit-sync/badges/gpa.svg)](https://codeclimate.com/github/mumuki/mumukit-sync)
+[![Test Coverage](https://codeclimate.com/github/mumuki/mumukit-sync/badges/coverage.svg)](https://codeclimate.com/github/mumuki/mumukit-sync)
+
+
 # Mumukit::Sync
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mumukit/sync`. To experiment with that code, run `bin/console` for an interactive prompt.
