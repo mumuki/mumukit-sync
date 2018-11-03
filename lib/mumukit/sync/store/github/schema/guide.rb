@@ -13,7 +13,7 @@ module Mumukit::Sync::Store::Github::Schema::Guide
       {name: :beta, kind: :metadata},
       {name: :teacher_info, kind: :metadata},
       {name: :language, kind: :metadata, transform: name },
-      {name: :id_format, kind: :metadata, default: '%05d'},
+      {name: :id_format, kind: :metadata},
       {name: :order, kind: :metadata, transform: with { |it| it.map { |e| e[:id] } }, reverse: :exercises},
       {name: :private, kind: :metadata},
       {name: :expectations},

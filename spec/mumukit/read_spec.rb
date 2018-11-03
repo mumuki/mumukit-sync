@@ -19,7 +19,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo) }
     let!(:guide) { reader.read_guide! }
 
-    it { expect(guide[:id_format]).to eq '%05d' }
+    it { expect(guide[:id_format]).to be_nil }
     it { expect(guide[:type]).to eq 'practice' }
     it { expect(guide[:beta]).to be nil }
     it { expect(guide[:language][:name]).to eq 'haskell' }
