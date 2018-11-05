@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["franco@mumuki.org"]
 
   spec.summary       = %q{Synchronization tool for resources}
-  spec.description   = %q{Synchronization tool for resources}
+  spec.description   = %q{Library for importing and exporting things within Mumuki}
   spec.homepage      = 'https://mumuki.org'
   spec.license       = "MIT"
 
@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mumukit-bridge', '~> 3.5'
   spec.add_dependency 'mumukit-auth', '~> 7.0'
 
-  spec.add_dependency 'git'
+  spec.add_dependency 'git', '~> 1.5'
   spec.add_dependency 'octokit', '~> 4.1'
 
   spec.add_development_dependency "bundler", "~> 1.16"
