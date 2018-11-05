@@ -33,10 +33,6 @@ module Mumukit::Sync::Store
 
   ## FIXME REMOVE
   class Github::Bot
-    def fork!(slug, fork_organization)
-      octokit.fork slug.to_s, {organization: fork_organization}
-    end
-
     def upload_asset!(slug, filename, content)
       path = "assets/#{filename.gsub(/\.(.*){2,4}/) { |it| "_#{(Time.now.to_f * 1000).to_i}#{it}" }}"
       octokit.create_contents(slug.to_s,
