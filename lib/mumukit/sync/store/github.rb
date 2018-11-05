@@ -13,7 +13,10 @@ module Mumukit::Sync::Store
     def read_resource(sync_key)
       return unless sync_key.kind == :guide
 
-      Mumukit::Sync::Store::Github::GuideImport.new(bot: @bot, repo: sync_key.id).run!
+      Mumukit::Sync::Store::Github::GuideImport.new(
+        bot: @bot,
+        repo: sync_key.id,
+        web_hook_base_url: @web_hook_base_url).run!
     end
 
     def write_resource!(sync_key, resource_h)
