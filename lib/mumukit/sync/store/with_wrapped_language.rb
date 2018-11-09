@@ -11,6 +11,6 @@ module Mumukit::Sync::Store::WithWrappedLanguage
   end
 
   def wrap_language!(hash)
-    hash[:language] = { name: hash[:language] } if hash[:language]
+    hash[:language] &&= { name: hash[:language] }
   end
 end
