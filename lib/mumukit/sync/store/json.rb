@@ -1,5 +1,5 @@
 module Mumukit::Sync::Store
-  class Json
+  class Json < Mumukit::Sync::Store::Base
     def initialize(json)
       @json = json
     end
@@ -8,20 +8,12 @@ module Mumukit::Sync::Store
       raise 'Non-discoverable store'
     end
 
-    def read_resource(sync_key)
-      post_transform sync_key.kind, pre_transform(sync_key.kind, @json).deep_symbolize_keys
+    def do_read(_sync_key)
+      @json
     end
 
     def write_resource!(*)
       raise 'Read-only store'
-    end
-
-    def pre_transform(kind, json)
-      json
-    end
-
-    def post_transform(kind, json)
-      json
     end
   end
 end
