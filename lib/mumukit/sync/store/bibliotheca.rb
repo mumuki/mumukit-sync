@@ -1,5 +1,7 @@
 module Mumukit::Sync::Store
-  class Bibliotheca
+  class Bibliotheca < Mumukit::Sync::Store::Base
+    include Mumukit::Sync::Store::WithWrappedLanguage
+
     def initialize(bibliotheca_bridge)
       @bibliotheca_bridge = bibliotheca_bridge
     end
@@ -12,7 +14,7 @@ module Mumukit::Sync::Store
       end
     end
 
-    def read_resource(sync_key)
+    def do_read(sync_key)
       @bibliotheca_bridge.send(sync_key.kind, sync_key.id)
     end
 
