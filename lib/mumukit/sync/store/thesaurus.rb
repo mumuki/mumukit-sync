@@ -10,7 +10,7 @@ module Mumukit::Sync::Store
 
     def do_read(sync_key)
       return unless sync_key.kind == :language
-      Mumukit::Bridge::Runner.new(runner_url).importable_info
+      Mumukit::Bridge::Runner.new(sync_key.id).importable_info
     end
 
     def write_resource!(*)
