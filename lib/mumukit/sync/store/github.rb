@@ -1,4 +1,7 @@
 module Mumukit::Sync::Store
+
+  ## This Store enables importing and exporting content
+  ## from and to Github
   class Github
     def initialize(bot, author_email = nil, web_hook_base_url = nil)
       @bot = bot

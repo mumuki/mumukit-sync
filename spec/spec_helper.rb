@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "mumukit/sync"
+require "mumukit/core/rspec"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

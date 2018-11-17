@@ -5,6 +5,9 @@ class Mumukit::Sync::Store::Base
 
   private
 
+  # We are assuming rails-like models, that can be whitelisted,
+  # and that resource-hashes resemble the model structure.
+  # The store must ensure that only valid hashes are read
   def pre_transform(key, json)
     Mumukit::Sync.constantize(key).whitelist_attributes(json, relations: true)
   end

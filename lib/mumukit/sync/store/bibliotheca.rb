@@ -1,4 +1,7 @@
 module Mumukit::Sync::Store
+
+  ## This Store enables importing content
+  ## from Bibliotheca API
   class Bibliotheca < Mumukit::Sync::Store::Base
     include Mumukit::Sync::Store::WithWrappedLanguage
 
