@@ -7,6 +7,7 @@ end
 
 
 require_relative './store/base'
+require_relative './store/null'
 require_relative './store/github'
 require_relative './store/json'
 require_relative './store/thesaurus'
