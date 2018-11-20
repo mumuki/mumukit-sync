@@ -33,17 +33,6 @@ module Mumukit::Sync::Store
         bot: @bot).run!
     end
   end
-
-  ## FIXME REMOVE
-  class Github::Bot
-    def upload_asset!(slug, filename, content)
-      path = "assets/#{filename.gsub(/\.(.*){2,4}/) { |it| "_#{(Time.now.to_f * 1000).to_i}#{it}" }}"
-      octokit.create_contents(slug.to_s,
-                              path,
-                              'Uploading new asset',
-                              content).content.to_h
-    end
-  end
 end
 
 require 'mumukit/auth'
