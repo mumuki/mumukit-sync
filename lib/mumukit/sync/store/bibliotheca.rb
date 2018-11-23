@@ -4,7 +4,7 @@ module Mumukit::Sync::Store
   ## from Bibliotheca API
   class Bibliotheca < Mumukit::Sync::Store::Base
     include Mumukit::Sync::Store::WithWrappedLanguage
-    include Mumukit::Sync::Store::WithIdFiltering
+    include Mumukit::Sync::Store::WithFilteredId
 
     def initialize(bibliotheca_bridge)
       @bibliotheca_bridge = bibliotheca_bridge
