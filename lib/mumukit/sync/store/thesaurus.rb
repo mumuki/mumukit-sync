@@ -12,7 +12,7 @@ module Mumukit::Sync::Store
     end
 
     def do_read(sync_key)
-      return unless sync_key.kind == :language
+      return unless sync_key.kind.like? :language
       # the only difference between an `importable_info`
       # and a `resource_h` is the way `runner_url` is named
       Mumukit::Bridge::Runner.new(sync_key.id)

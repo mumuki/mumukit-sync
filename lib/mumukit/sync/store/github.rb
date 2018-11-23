@@ -14,7 +14,7 @@ module Mumukit::Sync::Store
     end
 
     def read_resource(sync_key)
-      return unless sync_key.kind == :guide
+      return unless sync_key.kind.like? :guide
 
       Mumukit::Sync::Store::Github::GuideImport.new(
         bot: @bot,
@@ -23,7 +23,7 @@ module Mumukit::Sync::Store
     end
 
     def write_resource!(sync_key, resource_h)
-      return unless sync_key.kind == :guide
+      return unless sync_key.kind.like? :guide
 
       Mumukit::Sync::Store::Github::GuideExport.new(
         slug: sync_key.id,
