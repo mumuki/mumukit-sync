@@ -49,6 +49,7 @@ describe Mumukit::Sync::Store::Bibliotheca do
     let(:sync_key) { struct kind: :guide, id: 'foo/bar' }
 
     let(:guide_hash) { {
+        id: 'abe61891',
         exercises: [ { id: 1, language: 'text' } ],
         slug: 'foo/bar',
         language: 'java'
