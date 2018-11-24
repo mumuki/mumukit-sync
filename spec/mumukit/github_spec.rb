@@ -27,7 +27,14 @@ describe Mumukit::Sync::Store::Github do
   context 'when bot is authenticated' do
     let(:token) {  'atoken' }
     before { expect(bot).to receive(:register_post_commit_hook!) }
-    it { syncer.locate_and_import! :guide, slug }
+
+    context 'when using symbol kind' do
+      it { syncer.locate_and_import! :guide, slug }
+    end
+
+    context 'when using class kind' do
+      it { syncer.locate_and_import! Guide, slug }
+    end
   end
 
   context 'when bot is not authenticated' do
