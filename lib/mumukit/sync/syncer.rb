@@ -12,7 +12,7 @@ module Mumukit::Sync
     def initialize(store, inflators = [], resource_classifier = nil)
       @store = store
       @inflators = inflators
-      @resource_classifier ||= proc { |kind| Mumukit::Sync.constantize(kind) }
+      @resource_classifier ||= proc { |kind| kind.as_module }
     end
 
     def sync_keys_matching(id_regex = nil)
