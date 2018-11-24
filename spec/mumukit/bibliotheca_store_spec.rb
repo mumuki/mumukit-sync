@@ -46,23 +46,32 @@ describe Mumukit::Sync::Store::Bibliotheca do
 
     let(:bridge) { Mumukit::Bridge::Bibliotheca.new('http://nonexistenurl.com') }
     let(:store) { Mumukit::Sync::Store::Bibliotheca.new bridge }
-    let(:sync_key) { struct kind: :guide, id: 'foo/bar' }
 
     let(:guide_hash) { {
-        id: 'abe61891',
-        exercises: [ { id: 1, language: 'text' } ],
-        slug: 'foo/bar',
-        language: 'java'
+      id: 'abe61891',
+      exercises: [ { id: 1, language: 'text' } ],
+      slug: 'foo/bar',
+      language: 'java'
+      } }
+
+    let(:imported_resource_h) { {
+      exercises: [ { id: 1, language: { name: 'text' } } ],
+      slug: 'foo/bar',
+      language: { name: 'java' }
     } }
 
     before do
       expect(bridge).to receive(:guide).and_return guide_hash
     end
 
-    context 'wraps languages' do
-      it { expect(store.read_resource(sync_key)).to eq(exercises: [ { id: 1, language: { name: 'text' } } ],
-                                                       slug: 'foo/bar',
-                                                       language: { name: 'java' }) }
+    context 'when kind is a symbol' do
+      let(:sync_key) { struct kind: :guide, id: 'foo/bar' }
+      it { expect(store.read_resource(sync_key)).to eq imported_resource_h }
+    end
+
+    context 'when kind is a module' do
+      let(:sync_key) { struct kind: Guide, id: 'foo/bar' }
+      it { expect(store.read_resource(sync_key)).to eq imported_resource_h }
     end
   end
 end

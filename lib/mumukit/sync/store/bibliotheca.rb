@@ -13,13 +13,13 @@ module Mumukit::Sync::Store
     def sync_keys
       %w(guide topic book).flat_map do |kind|
         @bibliotheca_bridge
-          .send(kind.to_s.pluralize)
+          .send(kind.as_variable_name.pluralize)
           .map { |it| Mumukit::Sync.key kind, it['slug']  }
       end
     end
 
     def do_read(sync_key)
-      @bibliotheca_bridge.send(sync_key.kind, sync_key.id)
+      @bibliotheca_bridge.send(sync_key.kind.as_variable_name, sync_key.id)
     end
 
     def write_resource!(*)
