@@ -16,6 +16,16 @@ module Mumukit
     def self.key(kind, id)
       struct kind: kind, id: id
     end
+
+    # depracated
+    def self.constantize(kind)
+      kind.as_module
+    end
+
+    # depracated
+    def self.classify(kind)
+      kind.as_module_name
+    end
   end
 end
 
