@@ -1,5 +1,5 @@
 module Mumukit::Sync::Store::WithWrappedLanguage
-  def post_transform(key, json)
+  def transform_after_symbolize(key, json)
     if key.like? :guide
       guide = json.dup
       wrap_language! guide
