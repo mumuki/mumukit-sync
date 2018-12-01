@@ -32,22 +32,26 @@ module Mumukit::Sync
     end
 
     def locate_and_import!(*args)
-      locate(key_for(*args)).tap { |it| import! it }
+      sync_key = key_for(*args)
+      locate(sync_key).tap { |it| import! sync_key, it }
     end
 
-    def import!(resource)
-      resource_h = @store.read_resource(resource.sync_key)
-      Mumukit::Sync::Inflator.inflate_with! resource.sync_key, resource_h, @inflators
+    def import!(sync_key = nil, resource)
+      sync_key ||= resource.sync_key
+      resource_h = @store.read_resource(sync_key)
+      Mumukit::Sync::Inflator.inflate_with! sync_key, resource_h, @inflators
       resource.import_from_resource_h!(resource_h)
     end
 
     def locate_and_export!(*args)
-      locate(key_for(*args)).tap { |it| export! it }
+      sync_key = key_for(*args)
+      locate(sync_key).tap { |it| export! sync_key, it }
     end
 
-    def export!(resource)
+    def export!(sync_key = nil, resource)
+      sync_key ||= resource.sync_key
       resource_h = resource.to_resource_h
-      @store.write_resource!(resource.sync_key, resource_h)
+      @store.write_resource!(sync_key, resource_h)
     end
 
     private
