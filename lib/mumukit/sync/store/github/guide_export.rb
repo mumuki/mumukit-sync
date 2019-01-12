@@ -23,11 +23,11 @@ class Mumukit::Sync::Store::Github
 
     def run_in_local_repo(dir, local_repo)
       clear_repo local_repo
-      GuideWriter.new(dir, log).write_guide! guide_resource_h
+      GuideWriter.new(dir).write_guide! guide_resource_h
       local_repo.add(all: true)
       local_repo.commit("Mumuki Export on #{Time.now}", commit_options)
       local_repo.push
-    rescue Git::GitExecuteError => e
+    rescue StandardError => e
       puts "Could not export guide #{guide_resource_h[:slug]} to git #{e}"
     end
 
