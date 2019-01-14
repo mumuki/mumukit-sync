@@ -38,7 +38,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def self.from_env
-      new ENV['MUMUKI_BOT_USERNAME'], ENV['MUMUKI_BOT_EMAIL'], ENV['MUMUKI_API_TOKEN']
+      new ENV['MUMUKI_BOT_USERNAME'], ENV['MUMUKI_BOT_EMAIL'], ENV['MUMUKI_BOT_API_TOKEN']
     end
 
     private
