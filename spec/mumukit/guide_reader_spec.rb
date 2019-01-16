@@ -112,6 +112,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
         expect { reader.read_guide! }.to raise_error('Missing meta.yml')
       end
     end
+
     context 'when guide has full data' do
       let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/full-guide', repo) }
       let!(:guide) { reader.read_guide! }

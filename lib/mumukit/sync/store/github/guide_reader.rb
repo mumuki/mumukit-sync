@@ -61,6 +61,7 @@ class Mumukit::Sync::Store::Github
         builder = ExerciseBuilder.new
 
         meta = read_yaml_file(File.join(root, 'meta.yml'))
+        meta['language'] &&= { name: meta['language'] }
 
         builder.meta = meta
         builder.id = id
