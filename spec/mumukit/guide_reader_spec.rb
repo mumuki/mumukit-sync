@@ -26,77 +26,75 @@ describe Mumukit::Sync::Store::Github::GuideReader do
       it { expect(guide[:teacher_info]).to eq 'information' }
 
       context 'when importing basic exercise' do
-        let(:imported_exercise) { find_exercise_by_id(guide, 1) }
+        subject { find_exercise_by_id(guide, 1) }
 
-        it { expect(imported_exercise).to_not be nil }
-        it { expect(imported_exercise[:default_content]).to_not be nil }
-        it { expect(imported_exercise[:author]).to eq guide[:author] }
-        it { expect(imported_exercise[:name]).to eq 'sample_title' }
-        it { expect(imported_exercise[:extra_visible]).to be true }
-        it { expect(imported_exercise[:description]).to eq '##Sample Description' }
-        it { expect(imported_exercise[:test]).to eq 'pending' }
-        it { expect(imported_exercise[:extra]).to eq "extra\n" }
-        it { expect(imported_exercise[:hint]).to be nil }
-        it { expect(imported_exercise[:teacher_info]).to eq 'information' }
-        it { expect(imported_exercise[:corollary]).to be nil }
-        it { expect(imported_exercise[:expectations].size).to eq 2 }
-        it { expect(imported_exercise[:tag_list]).to include *%w(foo bar baz) }
-        it { expect(guide[:description]).to eq "Awesome guide\n" }
-        it { expect(imported_exercise[:layout]).to be nil }
-
+        it { expect(subject).to_not be nil }
+        it { expect(subject[:default_content]).to_not be nil }
+        it { expect(subject[:author]).to eq guide[:author] }
+        it { expect(subject[:name]).to eq 'sample_title' }
+        it { expect(subject[:extra_visible]).to be true }
+        it { expect(subject[:description]).to eq '##Sample Description' }
+        it { expect(subject[:test]).to eq 'pending' }
+        it { expect(subject[:extra]).to eq "extra\n" }
+        it { expect(subject[:hint]).to be nil }
+        it { expect(subject[:teacher_info]).to eq 'information' }
+        it { expect(subject[:corollary]).to be nil }
+        it { expect(subject[:expectations].size).to eq 2 }
+        it { expect(subject[:tag_list]).to include *%w(foo bar baz) }
+        it { expect(subject[:layout]).to be nil }
       end
 
       context 'when importing exercise with errors' do
-        let(:imported_exercise) { find_exercise_by_id(guide, 2) }
+        subject { find_exercise_by_id(guide, 2) }
 
-        it { expect(imported_exercise).to be nil }
+        it { expect(subject).to be nil }
       end
 
       context 'when importing exercise with hint and corollary' do
-        let(:imported_exercise) { find_exercise_by_id(guide, 3) }
+        subject { find_exercise_by_id(guide, 3) }
 
-        it { expect(imported_exercise).to_not be nil }
-        it { expect(imported_exercise[:name]).to eq "custom_name" }
-        it { expect(imported_exercise[:hint]).to eq "Try this: blah blah\n" }
-        it { expect(imported_exercise[:corollary]).to eq "And the corollary is...\n" }
+        it { expect(subject).to_not be nil }
+        it { expect(subject[:name]).to eq "custom_name" }
+        it { expect(subject[:hint]).to eq "Try this: blah blah\n" }
+        it { expect(subject[:corollary]).to eq "And the corollary is...\n" }
       end
 
       context 'when importing with layout' do
-        let(:imported_exercise) { find_exercise_by_id(guide, 4) }
+        subject { find_exercise_by_id(guide, 4) }
 
-        it { expect(imported_exercise).to_not be nil }
-        it { expect(imported_exercise[:layout]).to eq 'input_bottom' }
+        it { expect(subject).to_not be nil }
+        it { expect(subject[:layout]).to eq 'input_bottom' }
       end
 
       context 'when importing playground' do
-        let(:imported_exercise) { find_exercise_by_id(guide, 5) }
+        subject { find_exercise_by_id(guide, 5) }
 
-        it { expect(imported_exercise).to_not be nil }
-        it { expect(imported_exercise[:name]).to eq 'playground' }
-        it { expect(imported_exercise[:type]).to eq 'playground' }
+        it { expect(subject).to_not be nil }
+        it { expect(subject[:name]).to eq 'playground' }
+        it { expect(subject[:type]).to eq 'playground' }
 
       end
 
       context 'when importing reading' do
-        let(:imported_exercise) { find_exercise_by_id(guide, 6) }
+        subject { find_exercise_by_id(guide, 6) }
 
-        it { expect(imported_exercise).to_not be nil }
-        it { expect(imported_exercise[:name]).to eq 'reading' }
-        it { expect(imported_exercise[:type]).to eq 'reading' }
-        it { expect(imported_exercise[:test]).to be_blank}
-        it { expect(imported_exercise[:expectations]).to be_blank }
-        it { expect(imported_exercise[:hint]).to be_blank }
-        it { expect(imported_exercise[:corollary]).to be_blank }
-        it { expect(imported_exercise[:extra]).to be_blank }
-        it { expect(imported_exercise[:description]).to eq "Now read the following text\n"}
+        it { expect(subject).to_not be nil }
+        it { expect(subject[:name]).to eq 'reading' }
+        it { expect(subject[:type]).to eq 'reading' }
+        it { expect(subject[:test]).to be_blank}
+        it { expect(subject[:expectations]).to be_blank }
+        it { expect(subject[:hint]).to be_blank }
+        it { expect(subject[:corollary]).to be_blank }
+        it { expect(subject[:extra]).to be_blank }
+        it { expect(subject[:description]).to eq "Now read the following text\n"}
 
       end
 
       context 'when importing free_form' do
-        let(:imported_exercise) { find_exercise_by_id(guide, 7) }
+        subject { find_exercise_by_id(guide, 7) }
 
-        it { expect(imported_exercise).to_not be nil }
-        it { expect(imported_exercise[:free_form_editor_source]).to_not be_nil}
+        it { expect(subject).to_not be nil }
+        it { expect(subject[:free_form_editor_source]).to_not be_nil}
       end
     end
 
