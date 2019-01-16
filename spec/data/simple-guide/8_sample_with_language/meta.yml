@@ -1,0 +1,7 @@
+tags:
+  - foo
+  - bar
+  - baz
+locale: en
+layout: input_bottom
+language: sqlite
