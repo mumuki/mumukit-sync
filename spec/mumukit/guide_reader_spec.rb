@@ -7,13 +7,38 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     guide[:exercises].find { |it| it[:id] == id }
   end
 
-  describe 'read_exercises' do
-    let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide', repo) }
-
-    it { expect { reader.read_guide! }.to raise_error('Missing description file') }
-  end
 
   describe '#read_guide!' do
+    context 'guide meta is misisng' do
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/incompelete-guide', repo) }
+      it { expect { reader.read_guide! }.to raise_error('Missing guide meta.yml') }
+    end
+
+    context 'missing description' do
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide', repo) }
+      it { expect { reader.read_guide! }.to raise_error('Missing description file in exercise 1') }
+    end
+
+    context 'broken synax' do
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-syntax-error', repo) }
+      it { expect { reader.read_guide! }.to raise_error('Bad guide metadata syntax') }
+    end
+
+    context 'missing language' do
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-language', repo) }
+      it { expect { reader.read_guide! }.to raise_error('Missing guide language') }
+    end
+
+    context 'wrong data types' do
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-wrong-data-types', repo) }
+      it { expect { reader.read_guide! }.to raise_error('Wrong datatype') }
+    end
+
+    context 'wrong data types' do
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-wrong-assistance-rules', repo) }
+      it { expect { reader.read_guide! }.to raise_error('Bad assistance rule format') }
+    end
+
     context 'when guide is ok' do
       let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo) }
       let(:guide) { reader.read_guide! }
@@ -102,14 +127,6 @@ describe Mumukit::Sync::Store::Github::GuideReader do
 
         it { expect(subject).to_not be nil }
         it { expect(subject[:free_form_editor_source]).to_not be_nil}
-      end
-    end
-
-    context 'when guide is incomplete' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/incompelete-guide', repo) }
-
-      it 'fails' do
-        expect { reader.read_guide! }.to raise_error('Missing meta.yml')
       end
     end
 
