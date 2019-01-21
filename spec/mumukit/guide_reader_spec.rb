@@ -9,14 +9,19 @@ describe Mumukit::Sync::Store::Github::GuideReader do
 
 
   describe '#read_guide!' do
+    context 'guide description is misisng' do
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-description', repo) }
+      it { expect { reader.read_guide! }.to raise_error('Missing guide description file') }
+    end
+
     context 'guide meta is misisng' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/incompelete-guide', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-meta', repo) }
       it { expect { reader.read_guide! }.to raise_error('Missing guide meta.yml') }
     end
 
     context 'missing description' do
       let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide', repo) }
-      it { expect { reader.read_guide! }.to raise_error('Missing description file in exercise 1') }
+      it { expect { reader.read_guide! }.to raise_error('Missing exercise sample_broken description file') }
     end
 
     context 'broken synax' do
@@ -30,12 +35,12 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     end
 
     context 'wrong data types' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-wrong-data-types', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-wrong-data-types', repo) }
       it { expect { reader.read_guide! }.to raise_error('Wrong datatype') }
     end
 
     context 'wrong data types' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-wrong-assistance-rules', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-wrong-assistance-rules', repo) }
       it { expect { reader.read_guide! }.to raise_error('Bad assistance rule format') }
     end
 
