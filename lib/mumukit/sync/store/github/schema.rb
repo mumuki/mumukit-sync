@@ -105,7 +105,7 @@ class Mumukit::Sync::Store::Github
         if files.length == 1
           files[0]
         elsif files.empty? && required
-          raise "Missing #{name} file"
+          raise Mumukit::Sync::SyncError, "Missing #{name} file"
         else
           nil
         end

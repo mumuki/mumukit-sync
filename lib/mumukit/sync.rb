@@ -26,6 +26,9 @@ module Mumukit
     def self.classify(kind)
       kind.as_module_name
     end
+
+    class SyncError < StandardError
+    end
   end
 end
 
