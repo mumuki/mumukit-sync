@@ -14,7 +14,7 @@ class Mumukit::Sync::Store::Github
 
       read_guide_meta! builder
       Mumukit::Sync::Store::Github::Schema::Guide.file_fields.each do |it|
-        value = it.read_field_file(dir)
+        value = it.read_field_file 'guide', dir
         builder[it.reverse_name] = value
       end
       read_exercises! builder
@@ -75,7 +75,7 @@ class Mumukit::Sync::Store::Github
         builder.name = meta['name'] || name
 
         Mumukit::Sync::Store::Github::Schema::Exercise.file_fields.each do |it|
-          value = it.read_field_file(root)
+          value = it.read_field_file "exercise #{name}", root
           builder[it.reverse_name] = value
         end
         yield builder
