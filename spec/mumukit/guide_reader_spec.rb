@@ -34,16 +34,6 @@ describe Mumukit::Sync::Store::Github::GuideReader do
       it { expect { reader.read_guide! }.to raise_error('Missing guide language') }
     end
 
-    context 'wrong data types' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-wrong-data-types', repo) }
-      it { expect { reader.read_guide! }.to raise_error('Wrong datatype') }
-    end
-
-    context 'wrong data types' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-wrong-assistance-rules', repo) }
-      it { expect { reader.read_guide! }.to raise_error('Bad assistance rule format') }
-    end
-
     context 'when guide is ok' do
       let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo) }
       let(:guide) { reader.read_guide! }
