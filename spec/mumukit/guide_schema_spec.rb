@@ -7,7 +7,7 @@ describe Mumukit::Sync::Store::Github::Schema::Guide do
       README.md
       COPYRIGHT.txt
       meta.yml
-      expectations.*
+      expectations.yml
       *_*/*
       AUTHORS.txt
       COLLABORATORS.txt

@@ -26,6 +26,7 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
       extra: 'Foo',
       authors: 'Foo Bar',
       collaborators: 'Jhon Doe',
+      expectations: [{binding: '*', inspection: 'Not:UsesIf'}],
       exercises: [
 
           {name: 'foo',
@@ -193,13 +194,15 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
       it { expect(File.exist? 'spec/data/export/LICENSE.txt').to be true }
       it { expect(File.exist? 'spec/data/export/COPYRIGHT.txt').to be true }
       it { expect(File.exist? 'spec/data/export/COLLABORATORS.txt').to be true }
-      it { expect(Dir['spec/data/export/*'].size).to eq 12 }
+      it { expect(File.exist? 'spec/data/export/expectations.yml').to be true }
+      it { expect(Dir['spec/data/export/*'].size).to eq 13 }
 
       it { expect(File.read 'spec/data/export/extra.hs').to eq 'Foo' }
       it { expect(File.read 'spec/data/export/meta.yml').to eq "---\nname: Guide Name\nlocale: en\ntype: practice\nbeta: false\nteacher_info: an info\nlanguage: haskell\nid_format: \"%05d\"\norder:\n- 100\n- 200\n- 300\n- 400\n" }
       it { expect(File.read 'spec/data/export/description.md').to eq 'Baz' }
       it { expect(File.read 'spec/data/export/AUTHORS.txt').to eq 'Foo Bar' }
       it { expect(File.read 'spec/data/export/COLLABORATORS.txt').to eq 'Jhon Doe' }
+      it { expect(File.read 'spec/data/export/expectations.yml').to eq "---\nexpectations:\n- binding: \"*\"\n  inspection: Not:UsesIf\n" }
     end
   end
 end

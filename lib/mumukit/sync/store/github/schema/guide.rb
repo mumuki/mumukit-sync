@@ -16,8 +16,8 @@ module Mumukit::Sync::Store::Github::Schema::Guide
       {name: :id_format, kind: :metadata},
       {name: :order, kind: :metadata, transform: with { |it| it.map { |e| e[:id] } }, reverse: :exercises},
       {name: :private, kind: :metadata},
-      {name: :expectations},
 
+      {name: :expectations, kind: :file, extension: 'yml', transform: yaml_list('expectations')},
       {name: :description, kind: :file, extension: 'md', required: true},
       {name: :corollary, kind: :file, extension: 'md'},
       {name: :sources, kind: :file, extension: 'md'},
@@ -29,6 +29,6 @@ module Mumukit::Sync::Store::Github::Schema::Guide
   end
 
   def self.fixed_file_patterns
-    %w(LICENSE.txt README.md COPYRIGHT.txt meta.yml expectations.* *_*/*)
+    %w(LICENSE.txt README.md COPYRIGHT.txt meta.yml *_*/*)
   end
 end
