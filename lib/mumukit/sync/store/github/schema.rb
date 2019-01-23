@@ -32,6 +32,14 @@ class Mumukit::Sync::Store::Github
       fields.select { |it| it.kind == :file }
     end
 
+    def file_patterns
+      file_fields.map(&:get_file_pattern) + fixed_file_patterns
+    end
+
+    def fixed_file_patterns
+      []
+    end
+
     def fields
       @field ||= fields_schema.map { |it| new_field(it) }
     end
@@ -74,6 +82,9 @@ class Mumukit::Sync::Store::Github
       end
 
       ## Writing fields to Github
+      def get_file_pattern
+        get_file_name extension: '*', test_extension: '*'
+      end
 
       def get_file_name(language)
         "#{name}.#{get_file_extension(language)}"

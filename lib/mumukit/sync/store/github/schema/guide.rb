@@ -27,4 +27,8 @@ module Mumukit::Sync::Store::Github::Schema::Guide
       {name: :COLLABORATORS, kind: :file, extension: 'txt', reverse: :collaborators}
     ]
   end
+
+  def self.fixed_file_patterns
+    %w(LICENSE.txt README.md COPYRIGHT.txt meta.yml expectations.* *_*/*)
+  end
 end
