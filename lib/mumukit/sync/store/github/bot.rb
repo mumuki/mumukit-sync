@@ -21,7 +21,6 @@ class Mumukit::Sync::Store::Github
     rescue Git::GitExecuteError => e
       raise Mumukit::Sync::SyncError, 'Repository is private or does not exist' if private_repo_error(e.message)
       raise Mumukit::Sync::SyncError, e
-
     end
 
     def register_post_commit_hook!(slug, web_hook_base_url)
