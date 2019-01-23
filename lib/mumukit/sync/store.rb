@@ -2,6 +2,13 @@ require 'mumukit/bridge'
 
 module Mumukit::Sync
   module Store
+    def self.non_discoverable!
+      raise Mumukit::Sync::SyncError, 'Non-discoverable store'
+    end
+
+    def self.read_only!
+      raise Mumukit::Sync::SyncError, 'Read-only store'
+    end
   end
 end
 

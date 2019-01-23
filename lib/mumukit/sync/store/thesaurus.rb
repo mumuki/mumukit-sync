@@ -21,7 +21,7 @@ module Mumukit::Sync::Store
     end
 
     def write_resource!(*)
-      raise 'Read-only store'
+      Mumukit::Sync::Store.read_only!
     end
   end
 end

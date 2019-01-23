@@ -5,7 +5,7 @@ module Mumukit::Sync::Store
     end
 
     def sync_keys
-      raise 'Non-discoverable store'
+      Mumukit::Sync::Store.non_discoverable!
     end
 
     def do_read(_sync_key)
@@ -13,7 +13,7 @@ module Mumukit::Sync::Store
     end
 
     def write_resource!(*)
-      raise 'Read-only store'
+      Mumukit::Sync::Store.read_only!
     end
   end
 end

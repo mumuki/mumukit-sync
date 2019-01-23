@@ -4,7 +4,7 @@ module Mumukit::Sync::Store
     end
 
     def read_resource(key)
-      raise "#{key.kind} #{key.id} not found"
+      raise Mumukit::Sync::SyncError, "Non-readable store"
     end
   end
 end
