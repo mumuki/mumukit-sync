@@ -9,12 +9,12 @@ describe Mumukit::Sync::Store::Github::GuideReader do
 
 
   describe '#read_guide!' do
-    context 'guide description is misisng' do
+    context 'guide description is missing' do
       let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-description', repo) }
       it { expect { reader.read_guide! }.to raise_error('Missing guide description file') }
     end
 
-    context 'guide meta is misisng' do
+    context 'guide meta is missing' do
       let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-meta', repo) }
       it { expect { reader.read_guide! }.to raise_error('Missing guide meta.yml') }
     end
