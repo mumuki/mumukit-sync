@@ -100,19 +100,19 @@ class Mumukit::Sync::Store::Github
 
       ## Reading fields from Github
 
-      def find_file_name(root)
+      def find_file_name(description, root)
         files = Dir.glob("#{root}/#{name}.*")
         if files.length == 1
           files[0]
         elsif files.empty? && required
-          raise "Missing #{name} file"
+          raise Mumukit::Sync::SyncError, "Missing #{description} #{name} file"
         else
           nil
         end
       end
 
-      def read_field_file(root)
-        find_file_name(root).try { |it| safe_transform.from.call it }
+      def read_field_file(description, root)
+        find_file_name(description, root).try { |it| safe_transform.from.call it }
       end
 
     end

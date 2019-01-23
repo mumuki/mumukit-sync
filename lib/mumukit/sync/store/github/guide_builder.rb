@@ -22,6 +22,8 @@ class Mumukit::Sync::Store::Github
     private
 
     def build_json
+      raise Mumukit::Sync::SyncError, "Missing guide language" if language[:name].blank?
+
       {name: name,
        description: description,
        corollary: corollary,

@@ -12,9 +12,9 @@ class Mumukit::Sync::Store::Github
     def read_guide!
       builder = GuideBuilder.new(@slug)
 
-      read_meta! builder
+      read_guide_meta! builder
       Mumukit::Sync::Store::Github::Schema::Guide.file_fields.each do |it|
-        value = it.read_field_file(dir)
+        value = it.read_field_file 'guide', dir
         builder[it.reverse_name] = value
       end
       read_exercises! builder
@@ -22,10 +22,17 @@ class Mumukit::Sync::Store::Github
       builder.build
     end
 
-    def read_meta!(builder)
+    def read_meta!(description, dir)
       meta = read_yaml_file(File.join(dir, 'meta.yml'))
+      raise Mumukit::Sync::SyncError, "Missing #{description} meta.yml" unless meta
 
-      raise 'Missing meta.yml' unless meta
+      meta
+    rescue Psych::SyntaxError
+      raise Mumukit::Sync::SyncError, "Bad #{description} metadata syntax"
+    end
+
+    def read_guide_meta!(builder)
+      meta = read_meta! 'guide', dir
 
       builder.language = { name: meta['language'] }
       builder.locale = meta['locale']
@@ -60,7 +67,7 @@ class Mumukit::Sync::Store::Github
       each_exercise_file do |root, position, id, name|
         builder = ExerciseBuilder.new
 
-        meta = read_yaml_file(File.join(root, 'meta.yml'))
+        meta = read_meta! "exercise #{name}", root
         meta['language'] &&= { name: meta['language'] }
 
         builder.meta = meta
@@ -68,7 +75,7 @@ class Mumukit::Sync::Store::Github
         builder.name = meta['name'] || name
 
         Mumukit::Sync::Store::Github::Schema::Exercise.file_fields.each do |it|
-          value = it.read_field_file(root)
+          value = it.read_field_file "exercise #{name}", root
           builder[it.reverse_name] = value
         end
         yield builder
