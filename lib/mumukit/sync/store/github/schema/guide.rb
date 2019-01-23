@@ -20,6 +20,8 @@ module Mumukit::Sync::Store::Github::Schema::Guide
 
       {name: :description, kind: :file, extension: 'md', required: true},
       {name: :corollary, kind: :file, extension: 'md'},
+      {name: :sources, kind: :file, extension: 'md'},
+      {name: :learn_more, kind: :file, extension: 'md'},
       {name: :extra, kind: :file, extension: :code},
       {name: :AUTHORS, kind: :file, extension: 'txt', reverse: :authors},
       {name: :COLLABORATORS, kind: :file, extension: 'txt', reverse: :collaborators}

@@ -39,7 +39,19 @@ class Mumukit::Sync::Store::Github
     end
 
     def clear_repo(local_repo)
-      local_repo.remove %w(LICENSE.txt README.md COPYRIGHT.txt AUTHORS.txt COLLABORATORS.txt description.md corollary.md meta.yml extra.yml expectations.* *_*/*)
+      local_repo.remove %w(
+        LICENSE.txt
+        README.md
+        COPYRIGHT.txt
+        AUTHORS.txt
+        COLLABORATORS.txt
+        description.md
+        corollary.md
+        sources.md
+        learn_more.md
+        meta.yml
+        extra.yml
+        expectations.* *_*/*) # FIXME autogenerate this list
     rescue Git::GitExecuteError => e
       puts 'Nothing to clean, repo seems to be empty'
     end
