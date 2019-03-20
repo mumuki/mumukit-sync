@@ -20,7 +20,7 @@ class Mumukit::Sync::Store::Github
       yield dir, local_repo
     rescue Git::GitExecuteError => e
       raise Mumukit::Sync::SyncError, 'Repository is private or does not exist' if private_repo_error(e.message)
-      raise Mumukit::Sync::SyncError, e
+      raise Mumukit::Sync::SyncError, "Clone of #{repo} failed"
     end
 
     def register_post_commit_hook!(slug, web_hook_base_url)
