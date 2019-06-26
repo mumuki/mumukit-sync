@@ -4,7 +4,7 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
 
   let(:bot) { Mumukit::Sunc::Store::Github::Bot.new('mumukibot', 'zaraza') }
   let(:dir) { 'spec/data/export' }
-  let(:writer) { Mumukit::Sync::Store::Github::GuideWriter.new(dir) }
+  let(:writer) { Mumukit::Sync::Store::Github::GuideWriter.new(dir, Mumukit::Sync::Store::Github::Schema::Exercise.new) }
 
   before { Dir.mkdir(dir) }
   after { FileUtils.rm_rf(dir) }

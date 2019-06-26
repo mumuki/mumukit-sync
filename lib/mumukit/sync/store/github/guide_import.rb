@@ -8,7 +8,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def run_in_local_repo(dir, local_repo)
-      GuideReader.new(dir, repo).read_guide!
+      GuideReader.new(dir, repo, @exercise_schema).read_guide!
     end
   end
 end

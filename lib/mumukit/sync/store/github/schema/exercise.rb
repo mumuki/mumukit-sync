@@ -1,7 +1,7 @@
-module Mumukit::Sync::Store::Github::Schema::Exercise
-  extend Mumukit::Sync::Store::Github::Schema
+class Mumukit::Sync::Store::Github::Schema::Exercise
+  include Mumukit::Sync::Store::Github::Schema
 
-  def self.fields_schema
+  def fields_schema
     [
       {name: :id, kind: :special},
       {name: :name, kind: :special},

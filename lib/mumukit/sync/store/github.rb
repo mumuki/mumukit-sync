@@ -19,7 +19,8 @@ module Mumukit::Sync::Store
       Mumukit::Sync::Store::Github::GuideImport.new(
         bot: @bot,
         repo: sync_key.id,
-        web_hook_base_url: @web_hook_base_url).run!
+        web_hook_base_url: @web_hook_base_url,
+        exercise_schema: @exercise_schema).run!
     end
 
     def write_resource!(sync_key, resource_h)
@@ -30,6 +31,7 @@ module Mumukit::Sync::Store
         document: resource_h,
         author_email: @author_email,
         web_hook_base_url: @web_hook_base_url,
+        exercise_schema: @exercise_schema,
         bot: @bot).run!
     end
   end

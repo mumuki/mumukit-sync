@@ -4,9 +4,10 @@ class Mumukit::Sync::Store::Github
 
     attr_reader :dir
 
-    def initialize(dir, repo)
+    def initialize(dir, repo, exercise_schema)
       @dir = File.expand_path(dir)
       @slug = repo.to_s
+      @exercise_schema = exercise_schema
     end
 
     def read_guide!
@@ -65,7 +66,7 @@ class Mumukit::Sync::Store::Github
 
     def read_exercises
       each_exercise_file do |root, position, id, name|
-        builder = ExerciseBuilder.new
+        builder = ExerciseBuilder.new(schema: @exercise_schema)
 
         meta = read_meta! "exercise #{name}", root
         meta['language'] &&= { name: meta['language'] }
@@ -74,7 +75,7 @@ class Mumukit::Sync::Store::Github
         builder.id = id
         builder.name = meta['name'] || name
 
-        Mumukit::Sync::Store::Github::Schema::Exercise.file_fields.each do |it|
+        @exercise_schema.file_fields.each do |it|
           value = it.read_field_file "exercise #{name}", root
           builder[it.reverse_name] = value
         end

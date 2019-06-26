@@ -5,6 +5,7 @@ class Mumukit::Sync::Store::Github
     def initialize(options)
       @bot = options[:bot]
       @web_hook_base_url = options[:web_hook_base_url]
+      @exercise_schema = options[:exercise_schema]
     end
 
     def with_local_repo(&block)

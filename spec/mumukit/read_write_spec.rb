@@ -33,11 +33,12 @@ describe 'read-write' do
            id: 2}] } }
 
   let(:dir) { 'spec/data/import-export' }
-
+  let(:exercise_schema) { Mumukit::Sync::Store::Github::Schema::Exercise.new }
+  
   let(:imported_guide) do
     FileUtils.mkdir_p dir
-    Mumukit::Sync::Store::Github::GuideWriter.new(dir).write_guide! guide
-    Mumukit::Sync::Store::Github::GuideReader.new(dir, repo).read_guide!
+    Mumukit::Sync::Store::Github::GuideWriter.new(dir, exercise_schema).write_guide! guide
+    Mumukit::Sync::Store::Github::GuideReader.new(dir, repo, exercise_schema).read_guide!
   end
 
   after do

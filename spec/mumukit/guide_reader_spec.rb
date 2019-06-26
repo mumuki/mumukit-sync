@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Mumukit::Sync::Store::Github::GuideReader do
   let(:repo) { Mumukit::Auth::Slug.new('mumuki', 'functional-haskell-guide-1') }
+  let(:exercise_schema) { Mumukit::Sync::Store::Github::Schema::Exercise.new }
+
 
   def find_exercise_by_id(guide, id)
     guide[:exercises].find { |it| it[:id] == id }
@@ -10,32 +12,32 @@ describe Mumukit::Sync::Store::Github::GuideReader do
 
   describe '#read_guide!' do
     context 'guide description is missing' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-description', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-description', repo, exercise_schema) }
       it { expect { reader.read_guide! }.to raise_error('Missing guide description file') }
     end
 
     context 'guide meta is missing' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-meta', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-meta', repo, exercise_schema) }
       it { expect { reader.read_guide! }.to raise_error('Missing guide meta.yml') }
     end
 
     context 'missing description' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide', repo, exercise_schema) }
       it { expect { reader.read_guide! }.to raise_error('Missing exercise sample_broken description file') }
     end
 
     context 'broken synax' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-syntax-error', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-syntax-error', repo, exercise_schema) }
       it { expect { reader.read_guide! }.to raise_error('Bad guide metadata syntax') }
     end
 
     context 'missing language' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-language', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/broken-guide-missing-language', repo, exercise_schema) }
       it { expect { reader.read_guide! }.to raise_error('Missing guide language') }
     end
 
     context 'when guide is ok' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/simple-guide', repo, exercise_schema) }
       let(:guide) { reader.read_guide! }
 
       it { expect(guide[:slug]).to eq 'mumuki/functional-haskell-guide-1'}
@@ -126,7 +128,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     end
 
     context 'when guide has full data' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/full-guide', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/full-guide', repo, exercise_schema) }
       let!(:guide) { reader.read_guide! }
 
       it { expect(guide[:name]).to eq 'Introduction' }
@@ -141,7 +143,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     end
 
     context 'when guide has legacy data' do
-      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/legacy-guide', repo) }
+      let(:reader) { Mumukit::Sync::Store::Github::GuideReader.new('spec/data/legacy-guide', repo, exercise_schema) }
       let!(:guide) { reader.read_guide! }
 
       it { expect(guide[:name]).to eq 'Introduction' }
