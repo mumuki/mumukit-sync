@@ -19,27 +19,24 @@ class Mumukit::Sync::Store::Github
       self.exercises << exercise
     end
 
+    def locale
+      meta['locale']
+    end
+
+    def language
+      meta['language']
+    end
+
     private
 
     def build_json
-      raise Mumukit::Sync::SyncError, "Missing guide language" if language[:name].blank?
-
-      {name: name,
-       description: description,
-       corollary: corollary,
-       language: language,
-       locale: locale,
-       type: type,
-       extra: extra,
-       beta: beta,
-       authors: authors,
-       collaborators: collaborators,
-       teacher_info: teacher_info,
-       id_format: id_format,
-       slug: slug,
-       expectations: expectations.to_a,
-       exercises: exercises.sort_by { |e| order.position_for(e[:id]) }}
+      raise Mumukit::Sync::SyncError, "Missing guide language" if language.blank?
+      file = Mumukit::Sync::Store::Github::Schema.build_fields_h(Mumukit::Sync::Store::Github::Schema::Guide.file_fields) { |field| self[field.reverse_name] }
+      metadata = Mumukit::Sync::Store::Github::Schema.build_fields_h(Mumukit::Sync::Store::Github::Schema::Guide.metadata_fields) { |field| self.meta[field.name.to_s] }
+      file.merge(metadata).merge(
+        expectations: expectations.to_a,
+        slug: slug,
+        exercises: exercises.sort_by { |e| order.position_for(e[:id]) }).compact
     end
-
   end
 end

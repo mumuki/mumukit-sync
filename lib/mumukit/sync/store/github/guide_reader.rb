@@ -33,24 +33,18 @@ class Mumukit::Sync::Store::Github
 
     def read_guide_meta!(builder)
       meta = read_meta! 'guide', dir
+      meta['language'] &&= { name: meta['language'] }
+      read_legacy! meta
 
-      builder.language = { name: meta['language'] }
-      builder.locale = meta['locale']
+      builder.meta = meta
 
-      read! 'name', builder, meta
-      read! 'id_format', builder, meta
-      read! 'type', builder, meta
-      read! 'beta', builder, meta
-      read! 'teacher_info', builder, meta
-
-      read_legacy! builder, meta
 
       builder.order = Mumukit::Sync::Store::Github::Ordering.from meta['order']
     end
 
-    def read_legacy!(builder, meta)
-      builder.id_format ||= meta['original_id_format']
-      builder.type ||= meta['learning'] ? 'learning' : 'practice'
+    def read_legacy!(meta)
+      meta['id_format'] ||= meta['original_id_format']
+      meta['type'] ||= meta['learning'] ? 'learning' : 'practice'
     end
 
     def read!(key, builder, meta)
