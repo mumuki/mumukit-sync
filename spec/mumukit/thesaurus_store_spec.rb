@@ -65,6 +65,7 @@ describe Mumukit::Sync::Store::Thesaurus do
                                                           layout_css_urls: [],
                                                           editor_js_urls: [],
                                                           editor_html_urls: [],
-                                                          editor_css_urls: [] }
+                                                          editor_css_urls: [],
+                                                          multifile: false }
   end
 end
