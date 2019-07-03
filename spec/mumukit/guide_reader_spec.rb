@@ -39,6 +39,8 @@ describe Mumukit::Sync::Store::Github::GuideReader do
       let(:guide) { reader.read_guide! }
 
       it { expect(guide[:slug]).to eq 'mumuki/functional-haskell-guide-1'}
+      it { expect(guide[:private]).to be true }
+      it { expect(guide[:sources]).to eq "this guide comes from here\n" }
       it { expect(guide[:exercises].count).to eq 7 }
       it { expect(guide[:description]).to eq "Awesome guide\n" }
       it { expect(guide[:language][:name]).to eq 'haskell' }
