@@ -3,6 +3,8 @@ module Mumukit::Sync::Store
   ## This Store enables importing and exporting content
   ## from and to Github
   class Github
+    extend Mumukit::Core::Configurable
+
     def initialize(bot, author_email = nil, web_hook_base_url = nil)
       @bot = bot
       @author_email = author_email || bot.email
@@ -32,11 +34,16 @@ module Mumukit::Sync::Store
         web_hook_base_url: @web_hook_base_url,
         bot: @bot).run!
     end
+
+    def self.defaults
+      struct
+    end
   end
 end
 
 require 'mumukit/auth'
 
+require_relative './with_schema'
 require_relative './github/bot'
 require_relative './github/git_lib'
 require_relative './github/with_file_reading'

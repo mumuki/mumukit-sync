@@ -1,5 +1,7 @@
 class Mumukit::Sync::Store::Github
   class ExerciseBuilder < OpenStruct
+    include Mumukit::Sync::Store::Github::WithSchema
+
     def locale
       meta['locale']
     end
@@ -9,11 +11,11 @@ class Mumukit::Sync::Store::Github
     end
 
     def build_simple_fields
-      Mumukit::Sync::Store::Github::Schema.build_fields_h(Mumukit::Sync::Store::Github::Schema::Exercise.simple_fields) { |field| self.send(field.reverse_name) }
+      build_fields_h(exercise_schema.simple_fields) { |field| self.send(field.reverse_name) }
     end
 
     def build_metadata
-      Mumukit::Sync::Store::Github::Schema.build_fields_h(Mumukit::Sync::Store::Github::Schema::Exercise.metadata_fields) { |field| meta[field.name.to_s] }
+      build_fields_h(exercise_schema.metadata_fields) { |field| meta[field.name.to_s] }
     end
   end
 end

@@ -1,6 +1,7 @@
 class Mumukit::Sync::Store::Github
   class GuideReader
     include Mumukit::Sync::Store::Github::WithFileReading
+    include Mumukit::Sync::Store::Github::WithSchema
 
     attr_reader :dir
 
@@ -13,7 +14,7 @@ class Mumukit::Sync::Store::Github
       builder = GuideBuilder.new(@slug)
 
       read_guide_meta! builder
-      Mumukit::Sync::Store::Github::Schema::Guide.file_fields.each do |it|
+      guide_schema.file_fields.each do |it|
         value = it.read_field_file 'guide', dir
         builder[it.reverse_name] = value
       end
@@ -68,7 +69,7 @@ class Mumukit::Sync::Store::Github
         builder.id = id
         builder.name = meta['name'] || name
 
-        Mumukit::Sync::Store::Github::Schema::Exercise.file_fields.each do |it|
+        exercise_schema.file_fields.each do |it|
           value = it.read_field_file "exercise #{name}", root
           builder[it.reverse_name] = value
         end
