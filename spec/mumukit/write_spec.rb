@@ -124,7 +124,7 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
           it { expect(File.read 'spec/data/export/00200_bar/description.md').to eq 'a description' }
 
           it { expect(File.exist? 'spec/data/export/00200_bar/meta.yml').to be true }
-          it { expect(File.read 'spec/data/export/00200_bar/meta.yml').to eq "---\ntags:\n- baz\n- bar\nlayout: input_right\neditor: code\ntype: problem\nextra_visible: false\nmanual_evaluation: false\nchoices: []\nname: bar\n" }
+          it { expect(File.read 'spec/data/export/00200_bar/meta.yml').to eq "---\ntags:\n- baz\n- bar\nlayout: input_right\neditor: code\ntype: problem\nname: bar\n" }
 
 
           it { expect(File.exist? 'spec/data/export/00200_bar/test.hs').to be true }
@@ -142,7 +142,7 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
           it { expect(File.read 'spec/data/export/00300_multiple/description.md').to eq 'a multiple' }
 
           it { expect(File.exist? 'spec/data/export/00300_multiple/meta.yml').to be true }
-          it { expect(File.read 'spec/data/export/00300_multiple/meta.yml').to eq "---\ntags:\n- mult\nlayout: input_right\neditor: multiple_choice\ntype: problem\nextra_visible: false\nlanguage: text\nmanual_evaluation: false\nchoices:\n- value: foo\n  checked: true\n- value: bar\n  checked: false\nname: multiple\n" }
+          it { expect(File.read 'spec/data/export/00300_multiple/meta.yml').to eq "---\ntags:\n- mult\nlayout: input_right\neditor: multiple_choice\ntype: problem\nlanguage: text\nname: multiple\n" }
 
 
           it { expect(File.exist? 'spec/data/export/00300_multiple/test.yml').to be true }
@@ -157,7 +157,7 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
           it { expect(Dir.exist? 'spec/data/export/00400_with_rare_characters_in_its_name_/').to be true }
 
           it { expect(File.exist? 'spec/data/export/00400_with_rare_characters_in_its_name_/meta.yml').to be true }
-          it { expect(File.read 'spec/data/export/00400_with_rare_characters_in_its_name_/meta.yml').to eq "---\ntags:\n- mult\nlayout: input_right\neditor: multiple_choice\ntype: problem\nextra_visible: false\nlanguage: text\nmanual_evaluation: false\nchoices:\n- value: foo\n  checked: true\n- value: bar\n  checked: false\nname: with/rare\\characters<in>its|name.\n" }
+          it { expect(File.read 'spec/data/export/00400_with_rare_characters_in_its_name_/meta.yml').to eq "---\ntags:\n- mult\nlayout: input_right\neditor: multiple_choice\ntype: problem\nlanguage: text\nname: with/rare\\characters<in>its|name.\n" }
         end
 
       end
@@ -187,7 +187,6 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
         it { expect(Dir.exist? 'spec/data/export/00300_multiple/').to be true }
         it { expect(File.exist? 'spec/data/export/description.md').to be true }
         it { expect(File.exist? 'spec/data/export/meta.yml').to be true }
-        it { expect(File.exist? 'spec/data/export/extra.hs').to be true }
         it { expect(File.exist? 'spec/data/export/AUTHORS.txt').to be true }
         it { expect(File.exist? 'spec/data/export/README.md').to be true }
         it { expect(File.exist? 'spec/data/export/LICENSE.txt').to be true }
@@ -195,8 +194,7 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
         it { expect(File.exist? 'spec/data/export/COLLABORATORS.txt').to be true }
         it { expect(File.exist? 'spec/data/export/expectations.yml').to be true }
 
-        it { expect(File.read 'spec/data/export/extra.hs').to eq 'Foo' }
-        it { expect(File.read 'spec/data/export/meta.yml').to eq "---\nname: Guide Name\nlocale: en\ntype: practice\nbeta: false\nteacher_info: an info\nlanguage: haskell\nid_format: \"%05d\"\norder:\n- 100\n- 200\n- 300\n- 400\n" }
+        it { expect(File.read 'spec/data/export/meta.yml').to eq "---\nname: Guide Name\nlocale: en\nbeta: false\nlanguage: haskell\nid_format: \"%05d\"\norder:\n- 100\n- 200\n- 300\n- 400\n" }
         it { expect(File.read 'spec/data/export/description.md').to eq 'Baz' }
         it { expect(File.read 'spec/data/export/AUTHORS.txt').to eq 'Foo Bar' }
         it { expect(File.read 'spec/data/export/COLLABORATORS.txt').to eq 'Jhon Doe' }
@@ -237,14 +235,10 @@ describe Mumukit::Sync::Store::Github::GuideWriter do
       it { expect(File.exist? 'spec/data/export/COLLABORATORS.txt').to be false }
       it { expect(File.exist? 'spec/data/export/expectations.yml').to be false }
       it { expect(File.exist? 'spec/data/export/expectations.yml').to be false }
-      it { expect(File.exist? 'spec/data/export/learn_more.md').to be true }
-      it { expect(File.exist? 'spec/data/export/sources.md').to be true }
 
-      it { expect(File.read 'spec/data/export/meta.yml').to eq "---\nname: SQL Introduction\nlocale: en\ntype: learning\nteacher_info: an info\nlanguage: sql\norder: []\n" }
+      it { expect(File.read 'spec/data/export/meta.yml').to eq "---\nname: SQL Introduction\nlocale: en\nlanguage: sql\norder: []\n" }
       it { expect(File.read 'spec/data/export/description.md').to eq 'SQL is....' }
       it { expect(File.read 'spec/data/export/AUTHORS.txt').to eq 'Gus & Na' }
-      it { expect(File.read 'spec/data/export/sources.md').to eq 'From TI4' }
-      it { expect(File.read 'spec/data/export/learn_more.md').to eq 'See mumuki.io...' }
     end
   end
 end

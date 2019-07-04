@@ -129,6 +129,3 @@ class Mumukit::Sync::Store::Github
     end
   end
 end
-
-require_relative './schema/exercise'
-require_relative './schema/guide'

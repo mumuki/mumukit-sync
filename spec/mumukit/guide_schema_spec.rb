@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Mumukit::Sync::Store::Github::Schema::Guide do
+describe Mumukit::Sync::Store::Github::Schema do
   it do
-    expect(Mumukit::Sync::Store::Github::Schema::Guide.file_patterns).to match_array %w(
+    expect(Mumukit::Sync::Store::Github.config.guide_schema.file_patterns).to match_array %w(
       LICENSE.txt
       README.md
       COPYRIGHT.txt
@@ -11,10 +11,6 @@ describe Mumukit::Sync::Store::Github::Schema::Guide do
       *_*/*
       AUTHORS.txt
       COLLABORATORS.txt
-      description.md
-      corollary.md
-      sources.md
-      learn_more.md
-      extra.*)
+      description.md)
   end
 end
