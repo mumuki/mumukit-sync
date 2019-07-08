@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'mumukit-core', '~> 1.13'
-  spec.add_dependency 'mumukit-bridge', '~> 3.5'
   spec.add_dependency 'mumukit-auth', '~> 7.0'
 
   spec.add_dependency 'git', '~> 1.5'
