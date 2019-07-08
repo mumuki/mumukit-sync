@@ -39,27 +39,21 @@ describe Mumukit::Sync::Store::Github::GuideReader do
       let(:guide) { reader.read_guide! }
 
       it { expect(guide[:slug]).to eq 'mumuki/functional-haskell-guide-1'}
-      it { expect(guide[:private]).to be true }
-      it { expect(guide[:sources]).to eq "this guide comes from here\n" }
       it { expect(guide[:exercises].count).to eq 7 }
       it { expect(guide[:description]).to eq "Awesome guide\n" }
       it { expect(guide[:language][:name]).to eq 'haskell' }
       it { expect(guide[:locale]).to eq 'en' }
-      it { expect(guide[:teacher_info]).to eq 'information' }
 
       context 'when importing basic exercise' do
         subject { find_exercise_by_id(guide, 1) }
 
         it { expect(subject).to_not be nil }
-        it { expect(subject[:default_content]).to_not be nil }
         it { expect(subject[:author]).to eq guide[:author] }
         it { expect(subject[:name]).to eq 'sample_title' }
-        it { expect(subject[:extra_visible]).to be true }
         it { expect(subject[:description]).to eq '##Sample Description' }
         it { expect(subject[:test]).to eq 'pending' }
         it { expect(subject[:extra]).to eq "extra\n" }
         it { expect(subject[:hint]).to be nil }
-        it { expect(subject[:teacher_info]).to eq 'information' }
         it { expect(subject[:corollary]).to be nil }
         it { expect(subject[:expectations].size).to eq 2 }
         it { expect(subject[:tag_list]).to include *%w(foo bar baz) }
@@ -84,8 +78,6 @@ describe Mumukit::Sync::Store::Github::GuideReader do
 
         it { expect(subject).to_not be nil }
         it { expect(subject[:name]).to eq "custom_name" }
-        it { expect(subject[:hint]).to eq "Try this: blah blah\n" }
-        it { expect(subject[:corollary]).to eq "And the corollary is...\n" }
       end
 
       context 'when importing with layout' do
@@ -135,11 +127,8 @@ describe Mumukit::Sync::Store::Github::GuideReader do
       it { expect(guide[:authors]).to eq "Foo Bar\n" }
       it { expect(guide[:collaborators]).to eq "Jhon Doe\n" }
       it { expect(guide[:exercises].size).to eq 1 }
-      it { expect(guide[:corollary]).to eq "A guide's corollary\n" }
-      it { expect(guide[:type]).to eq 'learning' }
       it { expect(guide[:id_format]).to eq '%05d' }
       it { expect(guide[:beta]).to eq true }
-      it { expect(guide[:extra]).to eq "A guide's extra code\n" }
     end
 
     context 'when guide has legacy data' do
@@ -148,11 +137,8 @@ describe Mumukit::Sync::Store::Github::GuideReader do
 
       it { expect(guide[:name]).to eq 'Introduction' }
       it { expect(guide[:exercises].size).to eq 1 }
-      it { expect(guide[:corollary]).to eq "A guide's corollary\n" }
-      it { expect(guide[:type]).to eq 'learning' }
       it { expect(guide[:id_format]).to eq '%03d' }
       it { expect(guide[:beta]).to eq true }
-      it { expect(guide[:extra]).to eq "A guide's extra code\n" }
     end
   end
 end

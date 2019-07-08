@@ -8,7 +8,6 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     let!(:guide) { reader.read_guide! }
 
     it { expect(guide[:id_format]).to eq '%05d' }
-    it { expect(guide[:type]).to eq 'learning' }
     it { expect(guide[:beta]).to be true }
     it { expect(guide[:language][:name]).to eq 'haskell' }
     it { expect(guide[:locale]).to eq 'en' }
@@ -20,10 +19,8 @@ describe Mumukit::Sync::Store::Github::GuideReader do
     let!(:guide) { reader.read_guide! }
 
     it { expect(guide[:id_format]).to be_nil }
-    it { expect(guide[:type]).to eq 'practice' }
     it { expect(guide[:beta]).to be nil }
     it { expect(guide[:language][:name]).to eq 'haskell' }
     it { expect(guide[:locale]).to eq 'en' }
-    it { expect(guide[:teacher_info]).to eq 'information' }
   end
 end

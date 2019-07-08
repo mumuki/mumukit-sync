@@ -66,10 +66,6 @@ class Mumukit::Sync::Store::Github
       struct to: block, from: proc { |it| File.read(it) }
     end
 
-    def self.build_fields_h(fields)
-      fields.map { |field| [field.reverse_name, yield(field)] }.to_h
-    end
-
     private
 
     def new_field(it)
@@ -133,6 +129,3 @@ class Mumukit::Sync::Store::Github
     end
   end
 end
-
-require_relative './schema/exercise'
-require_relative './schema/guide'

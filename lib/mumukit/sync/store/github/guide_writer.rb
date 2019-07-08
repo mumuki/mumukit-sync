@@ -1,5 +1,7 @@
 class Mumukit::Sync::Store::Github
   class GuideWriter
+    include Mumukit::Sync::Store::Github::WithSchema
+
     attr_accessor :dir
 
     def initialize(dir)
@@ -26,8 +28,8 @@ class Mumukit::Sync::Store::Github
       end
       write_licenses!(guide)
 
-      write_metadata_fields! dir, Mumukit::Sync::Store::Github::Schema::Guide, guide
-      write_file_fields! dir, Mumukit::Sync::Store::Github::Schema::Guide, guide, guide[:language]
+      write_metadata_fields! dir, guide_schema, guide
+      write_file_fields! dir, guide_schema, guide, guide[:language]
     end
 
     def format_id(guide, exercise)
@@ -39,8 +41,8 @@ class Mumukit::Sync::Store::Github
 
       FileUtils.mkdir_p dirname
 
-      write_metadata_fields! dirname, Mumukit::Sync::Store::Github::Schema::Exercise, e
-      write_file_fields! dirname, Mumukit::Sync::Store::Github::Schema::Exercise, e, (e[:language] || guide[:language])
+      write_metadata_fields! dirname, exercise_schema, e
+      write_file_fields! dirname, exercise_schema, e, (e[:language] || guide[:language])
     end
 
     def write_licenses!(guide)

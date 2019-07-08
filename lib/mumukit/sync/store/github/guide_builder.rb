@@ -1,5 +1,7 @@
 class Mumukit::Sync::Store::Github
   class GuideBuilder < OpenStruct
+    include Mumukit::Sync::Store::Github::WithSchema
+
     attr_writer :exercises
 
     def initialize(slug)
@@ -31,8 +33,8 @@ class Mumukit::Sync::Store::Github
 
     def build_json
       raise Mumukit::Sync::SyncError, "Missing guide language" if language.blank?
-      file = Mumukit::Sync::Store::Github::Schema.build_fields_h(Mumukit::Sync::Store::Github::Schema::Guide.file_fields) { |field| self[field.reverse_name] }
-      metadata = Mumukit::Sync::Store::Github::Schema.build_fields_h(Mumukit::Sync::Store::Github::Schema::Guide.metadata_fields) { |field| self.meta[field.name.to_s] }
+      file = build_fields_h(guide_schema.file_fields) { |field| self[field.reverse_name] }
+      metadata = build_fields_h(guide_schema.metadata_fields) { |field| self.meta[field.name.to_s] }
       file.merge(metadata).merge(
         expectations: expectations.to_a,
         slug: slug,

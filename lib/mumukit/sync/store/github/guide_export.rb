@@ -1,5 +1,6 @@
 class Mumukit::Sync::Store::Github
   class GuideExport < Mumukit::Sync::Store::Github::Operation
+    include Mumukit::Sync::Store::Github::WithSchema
 
     attr_accessor :guide_resource_h, :bot, :author_email
 
@@ -39,7 +40,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def clear_repo(local_repo)
-      local_repo.remove Mumukit::Sync::Store::Github::Schema::Guide.file_patterns
+      local_repo.remove guide_schema.file_patterns
     rescue Git::GitExecuteError => e
       puts 'Nothing to clean, repo seems to be empty'
     end
