@@ -64,7 +64,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def writable_github_url_for(slug)
-      "https://#{token}:@github.com/#{slug}"
+      "https://#{name}:#{token}@github.com/#{slug}"
     end
 
     def octokit
