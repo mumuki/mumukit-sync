@@ -85,7 +85,7 @@ class Mumukit::Sync::Store::Github
     end
 
     def to_fs_friendly_name(dirname)
-      dirname.gsub /[\x00\/\\:\*\.\?\"<>\|]/, '_'
+      dirname.gsub(/[\x00\/\\:\*\.\?\"<>\|]/, '_')
     end
   end
 end

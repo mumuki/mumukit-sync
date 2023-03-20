@@ -56,7 +56,7 @@ describe Mumukit::Sync::Store::Github::GuideReader do
         it { expect(subject[:hint]).to be nil }
         it { expect(subject[:corollary]).to be nil }
         it { expect(subject[:expectations].size).to eq 2 }
-        it { expect(subject[:tag_list]).to include *%w(foo bar baz) }
+        it { expect(subject[:tag_list]).to include(*%w(foo bar baz)) }
         it { expect(subject[:layout]).to be nil }
         it { expect(subject[:language]).to be nil }
       end

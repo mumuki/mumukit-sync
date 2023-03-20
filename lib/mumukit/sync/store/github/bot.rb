@@ -53,7 +53,7 @@ class Mumukit::Sync::Store::Github
     def create!(slug, private)
       octokit.create_repository(slug.repository, organization: slug.organization)
       try_set_private!(slug) if private
-    rescue Octokit::Forbidden => e
+    rescue Octokit::Forbidden
       raise raise Mumukit::Sync::SyncError, "Mumuki is not allowed to create repositories in organization #{slug.organization}"
     end
 

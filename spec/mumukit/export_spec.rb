@@ -31,7 +31,7 @@ describe Mumukit::Sync::Store::Github::GuideExport do
         expect(bot).to receive(:create!).and_return(nil).ordered
         expect(bot).to receive(:clone_into).and_return(nil).ordered
       end
-  end
+    end
 
   it { expect { export.run! }.to_not raise_error }
 end

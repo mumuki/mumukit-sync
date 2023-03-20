@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'mumukit-core', '~> 1.13'
+  spec.add_dependency 'mumukit-core', '~> 1.19'
   spec.add_dependency 'mumukit-auth', '~> 7.0'
 
   spec.add_dependency 'git', '~> 1.5'
@@ -30,4 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 12.3'
   spec.add_development_dependency 'rspec', '~> 3.0'
+
+  spec.required_ruby_version = '>= 3.0'
 end

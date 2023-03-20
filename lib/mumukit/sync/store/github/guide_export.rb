@@ -41,7 +41,7 @@ class Mumukit::Sync::Store::Github
 
     def clear_repo(local_repo)
       local_repo.remove guide_schema.file_patterns
-    rescue Git::GitExecuteError => e
+    rescue Git::GitExecuteError
       puts 'Nothing to clean, repo seems to be empty'
     end
   end
