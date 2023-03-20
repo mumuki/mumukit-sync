@@ -1,3 +1,5 @@
+Warning[:deprecated] = true
+
 require "bundler/setup"
 require "mumukit/sync"
 require "mumukit/core/rspec"
